@@ -1,0 +1,12 @@
+/.bin
+/build
+/vendor
+/config/database.php
+memory::
+composer.lock
+/theme/src/@fontawsome/*
+/theme/src/@desinax/*
+/theme/src/
+/view/anax/v2/ip/leaflet.js
+/view/anax/v2/ip/leaflet.css
+/config/keys.php
