@@ -4,3 +4,4 @@ imports:
 filter:
     excluded_paths:
         - src/Navigation/Navbar.php
+        - htdocs/js/responsive-menu.js
