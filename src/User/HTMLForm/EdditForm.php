@@ -76,12 +76,10 @@ class EdditForm extends FormModel
 
         try {
             $user->save();
-            $db = $this->di->get("db");
-            $db->connect();
-            $currUser = $db->executeFetch("SELECT * FROM Users where username = ?", [$this->form->value("username")]);
+            $currUser = $user->getUserInfo("username", $this->form->value("username"), $this->di);
             $this->di->get("session")->set("user", $currUser);
 
-        return true;
+            return true;
         } catch (\Anax\Database\Exception\Exception $e) {
             return false;
         }

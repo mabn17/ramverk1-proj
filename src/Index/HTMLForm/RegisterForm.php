@@ -79,9 +79,7 @@ class RegisterForm extends FormModel
             $user->password = md5($user->password);
             $user->save();
 
-            $db = $this->di->get("db");
-            $db->connect();
-            $dbUser = $db->executeFetch("SELECT * FROM Users where username = ?", [$user->username]);
+            $dbUser = $user->getUserInfo("username", $user->username, $this->di);
 
             $this->di->get("session")->set("user", $dbUser);
             return true;

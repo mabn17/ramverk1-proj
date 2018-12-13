@@ -7,10 +7,11 @@ use Michelf\MarkDownExtra;
 /**
  * Filter and format text content.
  *
- * @SuppressWarnings(PHMD.UnusedFormalParameter)
- * @SuppressWarnings(PHMD.UnusedPrivateField)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.UnusedPrivateField)
+ * @SuppressWarnings(PHPMD.StaticAccess)
  */
-Class MdFilter
+class MdFilter
 {
     /**
      * @var array $filters  Supported filters with method names of

@@ -61,18 +61,15 @@ class LoginForm extends FormModel
         $username = $this->form->value("username");
         $password = $this->form->value("password");
 
-        $db = $this->di->get("db");
-        $db->connect();
+        $dbUser = $user->getUserInfo("username", $username, $this->di);
 
-        $dbUser = $db->executeFetch("SELECT * FROM Users where username = ?", [$username]);
-        
         if (!$dbUser || md5($password) != $dbUser->password) {
             $this->form->rememberValues();
             $this->form->addOutput("Username or Password did not match!");
             return false;
         }
 
-        $this->di->get("session")->set("user", $dbUser);        
+        $this->di->get("session")->set("user", $dbUser);
         return true;
     }
 

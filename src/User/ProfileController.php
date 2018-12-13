@@ -7,7 +7,6 @@ use Anax\Commons\ContainerInjectableTrait;
 use Anax\UserControll\UserControll;
 use Anax\User\HTMLForm\EdditForm;
 
-
 /**
  * A controller for flat file markdown content.
  */

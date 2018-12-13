@@ -13,6 +13,11 @@ return [
             "info" => "Display all users",
             "mount" => "users",
             "handler" => "\Anax\User\UserController",
+        ],
+        [
+            "info" => "Display spesific users",
+            "mount" => "user",
+            "handler" => "\Anax\User\UserController",
         ]
     ]
 ];

@@ -122,7 +122,7 @@ CREATE TABLE `Post2Tags`
 
 
 INSERT INTO `Post2Tags` (`postId`, `tagId`)
-VALUES (1, 2), (2, 3), (3, 4); -- Add a postId with tagId 1 when you see this work
+VALUES (1, 2), (2, 3), (3, 4), (1, 1); -- Add a postId with tagId 1 when you see this work
 
 
 
@@ -135,41 +135,23 @@ CREATE PROCEDURE `HeadCommentAndTags`
 BEGIN
 
     SELECT
-        P.id AS "id",
-        P.userId AS "userId",
-        P.created AS "created",
-        P.likes AS "likes",
-        P.title AS "title",
-        P.data AS "data",
-        P.parent AS "parent",
-        P.answerd AS "answerd",
+        P.id AS 'id',
+        P.userId AS 'userId',
+        P.created AS 'created',
+        P.likes AS 'likes',
+        P.title AS 'title',
+        P.data AS 'data',
+        P.parent AS 'parent',
+        P.answerd AS 'answerd',
         GROUP_CONCAT(T.tag)
     FROM `Posts` AS P
         INNER JOIN `Post2Tags` AS PT
             ON PT.postId = P.id
-        INNER JOIN `Tags` AS T
-            ON PT.tagId = T.tag
+        LEFT JOIN `Tags` AS T
+            ON PT.tagId = T.id
     GROUP BY P.id;
 
 END
 ;;
-
-
-/* `id` INT AUTO_INCREMENT NOT NULL,
-`userId` INT NOT NULL,
-`created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-`likes` INT DEFAULT 0,
-`title` VARCHAR(200) NOT NULL,
-`data` TEXT,
-`parent` INT DEFAULT NULL,
-`answerd` INT DEFAULT 0, */
-
-/* `id` INT AUTO_INCREMENT NOT NULL,
-`tag` VARCHAR(25), */
-
-/* `id` INT AUTO_INCREMENT NOT NULL,
-`postId` INT,
-`tagId` INT DEFAULT 1, */
-
 
 DELIMITER ;

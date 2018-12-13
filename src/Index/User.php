@@ -26,4 +26,13 @@ class User extends ActiveRecordModel
     public $password;
     public $email;
     public $points;
+
+    public function getUserInfo($quer, $id, $di)
+    {
+        $db = $di->get("db");
+        $db->connect();
+        $res = $db->executeFetch("SELECT * FROM Users WHERE $quer = ?", [$id]);
+
+        return $res;
+    }
 }

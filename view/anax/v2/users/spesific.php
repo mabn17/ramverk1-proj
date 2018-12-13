@@ -2,15 +2,16 @@
 
 namespace Anax\View;
 
+use Anax\Gravatar\Gravatar;
+
 /**
- * View to login.
+ * Displays all users in a table.
  */
+
 // Show all incoming variables/functions
 //var_dump(get_defined_functions());
 //echo showEnvironment(get_defined_vars());
+var_dump($person);
 
-?><h1>Logga in</h1>
+?><h1 class="text-center">Person</h1>
 
-<?= $form ?>
-
-<a href="<?= url("register") ?>">Registrera dig</a>
