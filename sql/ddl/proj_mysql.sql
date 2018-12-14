@@ -5,20 +5,23 @@ DROP DATABASE IF EXISTS forum;
 CREATE DATABASE IF NOT EXISTS forum;
 USE forum;
 
-
-
 --
 -- Create a database user for the test database
 --
 GRANT ALL ON forum.* TO user@localhost IDENTIFIED BY 'pass';
 
-
-
 -- Ensure UTF8 on the database connection
 SET NAMES utf8;
 
 
+DROP PROCEDURE IF EXISTS `HeadCommentAndTags`;
+DROP TABLE IF EXISTS `Post2Tags`;
+DROP TABLE IF EXISTS `Tags`;
+DROP TABLE IF EXISTS `Comments`;
+DROP TABLE IF EXISTS `Posts`;
 DROP TABLE IF EXISTS `Users`;
+
+
 CREATE TABLE `Users`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -40,7 +43,6 @@ VALUES
 
 
 
-DROP TABLE IF EXISTS `Posts`;
 CREATE TABLE `Posts`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -57,17 +59,16 @@ CREATE TABLE `Posts`
 
 INSERT INTO `Posts` (`userId`, `likes`, `title`, `data`, `parent`)
 VALUES
-    (1, 2, "First Post", "This is my first ever post", NULL),
-    (2, 0, "Post number two", "This is second post on this cool forum", NULL),
-    (3, 1, "Post nr Three", "This is my third post and i deeply regret it", NULL),
-    (1, 3, "Answr", "Ansvering To post nr 3", 3);
+    (1, 2, "First Post", "1 - question user1", NULL),
+    (2, 0, "Second Post", "2 - question user2", NULL),
+    (3, 1, "Third Post", "3 - question user3", NULL),
+    (1, 3, "Answer", "4 - Ans post 3 user1 parent 3", 3);
 
 
 
 
 
 
-DROP TABLE IF EXISTS `Comments`;
 CREATE TABLE `Comments`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -84,14 +85,13 @@ CREATE TABLE `Comments`
 
 INSERT INTO `Comments` (`userId`, `postId`, `data`)
 VALUES
-    (2, 1, "Commented on first post"),
-    (2, 4, "Commented on Answer of trird post");
+    (2, 1, "User 2 comments on Post 1"),
+    (2, 4, "User two comments on Post4 (Ans post 3 user1 parent 3)");
 
 
 
 
 
-DROP TABLE IF EXISTS `Tags`;
 CREATE TABLE `Tags`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -107,7 +107,6 @@ VALUES ("Other"), ("First"), ("Second"), ("Third");
 
 
 
-DROP TABLE IF EXISTS `Post2Tags`;
 CREATE TABLE `Post2Tags`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -129,7 +128,6 @@ VALUES (1, 2), (2, 3), (3, 4), (1, 1); -- Add a postId with tagId 1 when you see
 
 DELIMITER ;;
 
-DROP PROCEDURE IF EXISTS `HeadCommentAndTags`;;
 CREATE PROCEDURE `HeadCommentAndTags`
 ( /* Inga svar får taggar så hämta endast huvud taggar */ )
 BEGIN

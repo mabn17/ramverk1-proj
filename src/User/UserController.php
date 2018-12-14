@@ -76,6 +76,8 @@ class UserController implements ContainerInjectableInterface
             $viewName,
             [
                 "person" => $person,
+                "data" => $user->getPostsAndCommentsMade($id, $this->di),
+                "usr" => $user,
             ]
         );
 
