@@ -3,6 +3,7 @@
 namespace Anax\View;
 
 use Anax\Gravatar\Gravatar;
+use Anax\MdFilter\MdFilter;
 
 /**
  * Displays all users in a table.
@@ -11,6 +12,8 @@ use Anax\Gravatar\Gravatar;
 // Show all incoming variables/functions
 //var_dump(get_defined_functions());
 //echo showEnvironment(get_defined_vars());
+
+$mdfilter = new MdFilter;
 
 ?><h1 class="text-center">Översikt - <?= $person->username ?></h1>
 
@@ -25,7 +28,7 @@ use Anax\Gravatar\Gravatar;
     <tbody>
     <?php foreach ($data["posts"] as $posts) : ?>
         <tr>
-            <td><?= $posts->data ?></td>
+            <td><?= $mdfilter->parse($posts->data) ?></td>
             <td><a href="<?= url($usr->getPostUrl($posts)) ?>">Kolla Inlägg</a></td>
         </tr>
     <?php endforeach; ?>
@@ -43,7 +46,7 @@ use Anax\Gravatar\Gravatar;
     <tbody>
     <?php foreach ($data["comments"] as $comment) : ?>
         <tr>
-            <td><?= $comment->data ?></td>
+            <td><?= $mdfilter->parse($comment->data) ?></td>
             <td><a href="<?= url($usr->getCommentUrl($comment, $di)) ?>">Kolla Inlägg</a></td>
         </tr>
     <?php endforeach; ?>

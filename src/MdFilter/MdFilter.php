@@ -2,7 +2,9 @@
 
 namespace Anax\MdFilter;
 
-use Michelf\MarkDownExtra;
+/* use Michelf\MarkDownExtra; */
+// Dosent work on student server with use? - No idea why
+require_once ANAX_INSTALL_PATH . '/vendor/michelf/php-markdown/Michelf/Markdown.inc.php';
 
 /**
  * Filter and format text content.
@@ -14,11 +16,11 @@ use Michelf\MarkDownExtra;
 class MdFilter
 {
     /**
-     * @var array $filters  Supported filters with method names of
-     *                      their respective handler.
+     * @var array $filters Supported filters with method names of
+     *                     their respective handler.
      */
     private $filters = [
-        "markdown" => "markdown"
+        "markdown"  => "markdown",
     ];
 
 
@@ -30,12 +32,12 @@ class MdFilter
      *
      * @return string with the formatted text.
      */
-    public function parse($text, $filter = ["markdown"]) : string
+    public function parse($text, $filter = "markdown") : string
     {
         $filterArray = explode(",", $filter);
         foreach ($filterArray as $value) {
             if (array_key_exists($value, $this->filters)) {
-                $text = call_user_func_array($this, $this->filters[$value], array($text));
+                $text = call_user_func_array(array($this, $this->filters[$value]), array($text));
             }
         }
 
@@ -51,12 +53,7 @@ class MdFilter
      */
     public function markdown($text) : string
     {
-        // Use commented lines for phpunit but might cause some errors.
-        return MarkdownExtra::defaultTransform($text);
-        
-        // $parser = new MarkdownExtra;
-        // $parser->fn_id_prefix = "post22-";
-        
-        //return $parser->tansform($text);
+        //return MarkdownExtra::defaultTransform($text);
+        return \Michelf\Markdown::defaultTransform($text);
     }
 }

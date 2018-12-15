@@ -5,11 +5,13 @@ namespace Anax\Index;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Anax\UserControll\UserControll;
+use Anax\Post\Post;
 use Anax\Index\HTMLForm\RegisterForm;
 use Anax\Index\HTMLForm\LoginForm;
 
 /**
- * A controller for flat file markdown content.
+ * A controller that handles the index page aswell as user registration,
+ *                                                     login and logout.
  */
 class HomeController implements ContainerInjectableInterface
 {
@@ -17,6 +19,8 @@ class HomeController implements ContainerInjectableInterface
 
     /**
      * Handles the index page.
+     *
+     * @param string|null no real function, just for error handling.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -26,26 +30,48 @@ class HomeController implements ContainerInjectableInterface
         $user = new User();
         $user->setDb($this->di->get("dbqb"));
 
-        $viewName = "anax/v2/index/default";
+        $viewName = "anax/v2/index/overview";
 
         if ($userControll->hasLoggedInUser($this->di) == null) {
             $this->di->get("response")->redirect("login");
         }
 
+        $postDb = new Post();
         $page = $this->di->get("page");
-        $form = new RegisterForm($this->di);
-        $form->check();
 
         $page->add(
             $viewName,
             [
-                "items" => $user->findAll(),
+                "mostActiveUsers" => $user->mostActiveUsers($this->di),
+                "latestQuestions" => $postDb->getLatestPosts($this->di, 2),
+                "popularTags" => $postDb->findTags($this->di, 3),
+                "usr" => $user,
             ]
         );
 
         return $page->render([
-            "title" => "Hem",
+            "title" => "Översikt",
         ]);
+    }
+
+    /**
+     * Renders the about page in markdown.
+     */
+    public function aboutActionGet()
+    {
+        $file = ANAX_INSTALL_PATH . "/content/om.md";
+        $content = file_get_contents($file);
+        $content = $this->di->get("textfilter")->parse(
+            $content,
+            ["frontmatter", "variable", "shortcode", "markdown", "titlefromheader"]
+        );
+
+        $page = $this->di->get("page");
+        $page->add("anax/v2/article/default", [
+            "content" => $content->text,
+            "frontmatter" => $content->frontmatter,
+        ]);
+        return $page->render($content->frontmatter);
     }
 
     /**

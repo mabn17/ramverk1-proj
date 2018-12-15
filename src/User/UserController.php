@@ -50,6 +50,8 @@ class UserController implements ContainerInjectableInterface
      * Looks up a spesific user
      *
      * @param string|int $id    the user id
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function userActionGet($id = 0)
     {
