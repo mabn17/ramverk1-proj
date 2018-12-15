@@ -69,7 +69,12 @@ class Post extends ActiveRecordModel
     public function getLatestPosts($di, $amount) : array
     {
         $db = $this->returnDb($di);
-        $posts = $db->executeFetchAll("SELECT * FROM Posts WHERE parent IS NULL ORDER BY id DESC LIMIT $amount");
+        $sql = "SELECT * FROM Posts WHERE parent IS NULL ORDER BY id DESC LIMIT $amount";
+
+        if (!$amount) {
+            $sql = "SELECT * FROM Posts WHERE parent IS NULL ORDER BY id DESC";
+        }
+        $posts = $db->executeFetchAll($sql);
 
         return $posts;
     }
@@ -89,6 +94,17 @@ class Post extends ActiveRecordModel
         }
 
         return $db->executeFetchAll("CALL GetPopularTags()");
+    }
+
+    /**
+     * Returns a url so the user can look at spesific tags
+     */
+    public function getTagUrl($id) : string
+    {
+        $start = "tags/tag/";
+        $end = $id;
+
+        return $start . $end;
     }
 
     /**

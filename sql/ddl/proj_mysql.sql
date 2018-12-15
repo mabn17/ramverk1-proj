@@ -165,6 +165,7 @@ CREATE PROCEDURE `GetPopularTags`
 BEGIN
     SELECT
         tag,
+        T.id AS 'id',
         COUNT(PT.tagId) AS 'cnt'
     FROM
         `Tags` AS T
@@ -212,9 +213,9 @@ AS
         P.answerd AS 'answerd',
         U.email AS 'email',
         U.username AS 'username',
-        C.data AS "cdata",
-        C.userId AS "cuser",
-        C.postId AS "cpost"
+        C.data AS 'cdata',
+        C.userId AS 'cuser',
+        C.postId AS 'cpost'
     FROM
         Posts AS P
     INNER JOIN

@@ -4,11 +4,13 @@ namespace Anax\Tag;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
+use Anax\UserControll\UserControll;
+use Anax\Post\Post;
 
 /**
  * Displays all the users and display their posts and comments.
  */
-class UserController implements ContainerInjectableInterface
+class TagController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
 
@@ -17,30 +19,31 @@ class UserController implements ContainerInjectableInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function indexAction(/* $args = null */) : object
+    public function indexActionGet() : object
     {
         $userControll = new UserControll;
-        $user = new \Anax\Index\User();
-        $user->setDb($this->di->get("dbqb"));
-
-        $viewName = "anax/v2/tags/all";
-
         $currUser = $userControll->hasLoggedInUser($this->di);
+
         if ($currUser == null) {
             return $this->di->get("response")->redirect("login");
         }
 
+        $postDb = new Post();
+        $postDb->setDb($this->di->get("dbqb"));
+
         $page = $this->di->get("page");
+        $viewName = "anax/v2/tags/all";
 
         $page->add(
             $viewName,
             [
-                "users" => $user->findAll(),
+                "tags" => $postDb->findTags($this->di),
+                "postDb" => $postDb,
             ]
         );
 
         return $page->render([
-            "title" => "Användare",
+            "title" => "Taggar",
         ]);
     }
 }

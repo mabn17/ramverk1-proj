@@ -15,6 +15,41 @@ class PostController implements ContainerInjectableInterface
     use ContainerInjectableTrait;
 
     /**
+     * Displays all posts and links to their threads.
+     */
+    public function indexActionGet()
+    {
+        $userControll = new UserControll;
+        $currUser = $userControll->hasLoggedInUser($this->di);
+
+        if ($currUser == null) {
+            return $this->di->get("response")->redirect("");
+        }
+
+        $postDb = new Post();
+        $user = new User();
+
+        $postDb->setDb($this->di->get("dbqb"));
+
+        $page = $this->di->get("page");
+        $viewName = "anax/v2/posts/all";
+
+        $questions = $postDb->getLatestPosts($this->di, 0);
+
+        $page->add(
+            $viewName,
+            [
+                "questions" => $questions,
+                "usr" => $user,
+            ]
+        );
+
+        return $page->render([
+            "title" => "Alla inlägg",
+        ]);
+    }
+
+    /**
      * Displays a spesifc thread by the mail post id.
      *
      * @param string|int $id    the user id

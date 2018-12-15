@@ -36,7 +36,7 @@ return [
         ],
         [
             "text" => "Inlägg",
-            "url" => "posts",
+            "url" => "post",
             "title" => "inlägg",
         ]
     ],
