@@ -1,20 +1,24 @@
 --
 -- Create a database for test
 --
-DROP DATABASE IF EXISTS forum;
-CREATE DATABASE IF NOT EXISTS forum;
-USE forum;
+
+-- DROP DATABASE IF EXISTS forum;
+-- CREATE DATABASE IF NOT EXISTS forum;
+-- USE forum;
 
 --
 -- Create a database user for the test database
 --
-GRANT ALL ON forum.* TO user@localhost IDENTIFIED BY 'pass';
+-- GRANT ALL ON forum.* TO user@localhost IDENTIFIED BY 'pass';
 
 -- Ensure UTF8 on the database connection
 SET NAMES utf8;
 
-
-DROP PROCEDURE IF EXISTS `HeadCommentAndTags`;
+DROP VIEW IF EXISTS `GetSubPosts`;
+DROP PROCEDURE IF EXISTS `GetMostActiveUsers`;
+DROP PROCEDURE IF EXISTS `GetPopularTags`;
+DROP VIEW IF EXISTS `HeadCommentAndTags`;
+DROP TABLE IF EXISTS `Likes`;
 DROP TABLE IF EXISTS `Post2Tags`;
 DROP TABLE IF EXISTS `Tags`;
 DROP TABLE IF EXISTS `Comments`;
@@ -48,21 +52,22 @@ CREATE TABLE `Posts`
     `id` INT AUTO_INCREMENT NOT NULL,
     `userId` INT NOT NULL,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `likes` INT DEFAULT 0,
+    -- `likes` INT DEFAULT 0 NOT NULL,
     `title` VARCHAR(200) NOT NULL,
     `data` TEXT,
     `parent` INT DEFAULT NULL,
     `answerd` INT DEFAULT 0,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
-INSERT INTO `Posts` (`userId`, `likes`, `title`, `data`, `parent`)
+INSERT INTO `Posts` (`userId`, `title`, `data`, `parent`)
 VALUES
-    (1, 2, "First Post", "1 - question user1", NULL),
-    (2, 0, "Second Post", "2 - question user2", NULL),
-    (3, 1, "Third Post", "3 - question user3", NULL),
-    (1, 3, "Answer", "4 - Ans post 3 user1 parent 3", 3);
+    (1, "First Post", "1 - *question* user1", NULL),
+    (2, "Second Post", "2 - *question* user2", NULL),
+    (3, "Third Post", "3 - *question* user3", NULL),
+    (1, "Answer", "4 - *Ans* post 3 user1 parent 3", 3);
 
 
 
@@ -76,6 +81,7 @@ CREATE TABLE `Comments`
     `userId` INT NOT NULL,
     `postId` INT NOT NULL,
     `data` TEXT,
+   -- `likes` INT DEFAULT 0 NOT NULL,
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
@@ -85,8 +91,8 @@ CREATE TABLE `Comments`
 
 INSERT INTO `Comments` (`userId`, `postId`, `data`)
 VALUES
-    (2, 1, "User 2 comments on Post 1"),
-    (2, 4, "User two comments on Post4 (Ans post 3 user1 parent 3)");
+    (2, 1, "User 2 *comments* on Post 1"),
+    (2, 4, "User two *comments* on Post4 (Ans post 3 user1 parent 3)");
 
 
 
@@ -105,8 +111,6 @@ VALUES ("Other"), ("First"), ("Second"), ("Third");
 
 
 
-
-
 CREATE TABLE `Post2Tags`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -118,30 +122,36 @@ CREATE TABLE `Post2Tags`
     FOREIGN KEY (`tagId`) REFERENCES `Tags` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
-
-
 INSERT INTO `Post2Tags` (`postId`, `tagId`)
-VALUES (1, 2), (2, 3), (3, 4), (1, 1); -- Add a postId with tagId 1 when you see this work
+VALUES (1, 2), (2, 3), (3, 4), (1, 1), (2, 1); -- Add a postId with tagId 1 when you see this work
 
 
 
+CREATE TABLE Likes
+(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `type` VARCHAR(20),
+    `userId` INT,
+    `destinationId` INT,
+    `points` INT DEFAULT 0,
 
-DELIMITER ;;
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
-CREATE PROCEDURE `HeadCommentAndTags`
-( /* Inga svar får taggar så hämta endast huvud taggar */ )
-BEGIN
+
+CREATE VIEW `HeadCommentAndTags`
+AS
 
     SELECT
         P.id AS 'id',
         P.userId AS 'userId',
         P.created AS 'created',
-        P.likes AS 'likes',
         P.title AS 'title',
         P.data AS 'data',
         P.parent AS 'parent',
         P.answerd AS 'answerd',
-        GROUP_CONCAT(T.tag)
+        GROUP_CONCAT(T.tag) AS 'tagss'
     FROM `Posts` AS P
         INNER JOIN `Post2Tags` AS PT
             ON PT.postId = P.id
@@ -149,7 +159,65 @@ BEGIN
             ON PT.tagId = T.id
     GROUP BY P.id;
 
+DELIMITER ;;
+CREATE PROCEDURE `GetPopularTags`
+(  )
+BEGIN
+    SELECT
+        tag,
+        COUNT(PT.tagId) AS 'cnt'
+    FROM
+        `Tags` AS T
+    INNER JOIN
+        `Post2Tags` AS PT
+            ON PT.tagId = T.id
+    GROUP BY
+        PT.tagId
+    ORDER BY
+        cnt DESC;
 END
 ;;
 
 DELIMITER ;
+
+DELIMITER ;;
+DROP PROCEDURE IF EXISTS `GetMostActiveUsers`;;
+CREATE PROCEDURE `GetMostActiveUsers`
+()
+BEGIN
+
+    SELECT 
+        U.id AS 'id', U.username AS 'username', U.email AS 'email', COUNT(P.userId) AS CP,
+        COUNT(C.userId) AS CC, (COUNT(P.userId) + COUNT(C.userId)) AS activity
+    FROM Users AS U
+        LEFT JOIN Posts AS P ON P.userId = U.id
+        LEFT JOIN Comments AS C ON C.userId = U.id
+    GROUP BY U.username
+        ORDER BY activity DESC;
+
+END;;
+DELIMITER ;
+
+
+
+CREATE VIEW `GetSubPosts`
+AS
+    SELECT
+        P.id AS 'id',
+        P.userId AS 'userId',
+        P.created AS 'created',
+        P.title AS 'title',
+        P.data AS 'data',
+        P.parent AS 'parent',
+        P.answerd AS 'answerd',
+        U.email AS 'email',
+        U.username AS 'username',
+        C.data AS "cdata",
+        C.userId AS "cuser",
+        C.postId AS "cpost"
+    FROM
+        Posts AS P
+    INNER JOIN
+        Users AS U ON U.id = P.userId
+    LEFT JOIN
+        Comments AS C ON C.postId = P.id;
