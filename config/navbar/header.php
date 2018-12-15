@@ -10,24 +10,14 @@ return [
     // Here comes the menu items
     "items" => [
         [
-            "text" => "Hem",
+            "text" => "Översikt",
             "url" => "",
-            "title" => "Första sidan, börja här.",
-        ],
-        [
-            "text" => "Verktyg",
-            "url" => "verktyg",
-            "title" => "Verktyg och möjligheter för utveckling.",
+            "title" => "Översikt.",
         ],
         [
             "text" => "Om",
-            "url" => "om",
-            "title" => "Om denna webbplats.",
-        ],
-        [
-            "text" => "Styleväljare",
-            "url" => "style",
-            "title" => "Välj stylesheet.",
+            "url" => "about",
+            "title" => "Om",
         ],
         [
             "text" => "Profil",
@@ -39,5 +29,15 @@ return [
             "url" => "users",
             "title" => "Användare",
         ],
+        [
+            "text" => "Taggar",
+            "url" => "tags",
+            "title" => "taggar",
+        ],
+        [
+            "text" => "Inlägg",
+            "url" => "posts",
+            "title" => "inlägg",
+        ]
     ],
 ];
