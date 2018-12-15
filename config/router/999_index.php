@@ -10,6 +10,11 @@ return [
             "handler" => "\Anax\Index\HomeController",
         ],
         [
+            "info" => "About route",
+            "mount" => "about",
+            "handler" => "\Anax\Index\HomeController",
+        ],
+        [
             "info" => "Logout",
             "mount" => "logout",
             "handler" => "\Anax\Index\HomeController",
