@@ -16,7 +16,16 @@ $gravatar = new Gravatar;
 $mdfilter = new MdFilter;
 
 ?><h1 class="mb-2"><?= $mainThread->title ?></h1>
-<small>Taggar: <?= $mainThread->tagss ?></small>
+<small>
+    Taggar: 
+    <?php $str = ""; foreach (explode(",", $mainThread->tagss) as $subTag) : ?>
+        <?php $tagUrl = $postDb->getTagUrl($subTag, 1, $di) ?>
+        <?php $subTag = "<a href=" . url($tagUrl) . ">$subTag</a>, "?>
+        <?php $str .= $subTag ?>
+    <?php endforeach; ?>
+    <?= $str ?>
+</small>
+
 <div class="p-3"><?= $mdfilter->parse($mainThread->data) ?></div>
 <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
 <small>Inskickad <?= $mainThread->created ?> av <?= $mainUser->username ?></small>

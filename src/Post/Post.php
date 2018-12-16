@@ -58,6 +58,27 @@ class Post extends ActiveRecordModel
         ];
     }
 
+    public function findPostsForMyTag($id, $di)
+    {
+        $db = $this->returnDb($di);
+        $res = $db->executeFetchAll("SELECT * FROM HeadCommentAndTags");
+        $tagId = $db->executeFetch("SELECT * FROM Tags WHERE id = $id")->tag;
+        $returningArray = [];
+
+        foreach ($res as $value) {
+            $tagIds = explode(',', $value->tagss);
+
+            if (in_array($tagId, $tagIds)) {
+                $returningArray[] = $value;
+            }
+        }
+
+        return [
+            "data" => $returningArray,
+            "tagName" => $tagId,
+        ];
+    }
+
     /**
      * Returns all the comments and answers for the thread.
      *
@@ -99,10 +120,16 @@ class Post extends ActiveRecordModel
     /**
      * Returns a url so the user can look at spesific tags
      */
-    public function getTagUrl($id) : string
+    public function getTagUrl($id, $isName = 0, $di = null) : string
     {
         $start = "tags/tag/";
         $end = $id;
+
+        if ($isName) {
+            $db = $this->returnDb($di);
+            $tagId = $db->executeFetch("SELECT * FROM Tags WHERE tag = ?", [$id])->id;
+            $end = $tagId;
+        }
 
         return $start . $end;
     }

@@ -13,6 +13,6 @@ namespace Anax\View;
 ?><h1 class="text-center">Taggar</h1>
 
 <?php foreach ($tags as $tag) : ?>
-    <p><a href="<?= url($postDb->getTagUrl($tag->id)) ?>"></p>
+    <p><a href="<?= url($postDb->getTagUrl($tag->id)) ?>"><?= $tag->tag ?></a></p>
 <?php endforeach;
 
