@@ -24,5 +24,6 @@ exclude_paths:
     - "vendor/**"
     - "htdocs/cimage/**"
     - "config/navbar/**"
+    - "src/Navigation/**"
     - "src/Book/**"
     - "view/anax/v2/book/**"
