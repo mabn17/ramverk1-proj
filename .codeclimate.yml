@@ -22,3 +22,5 @@ ratings:
 exclude_paths:
     - "test/**"
     - "vendor/**"
+    - "htdocs/cimage/**"
+    - "config/navbar/**"
