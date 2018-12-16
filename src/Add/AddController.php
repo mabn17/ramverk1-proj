@@ -7,6 +7,8 @@ use Anax\Commons\ContainerInjectableTrait;
 use Anax\Index\User;
 use Anax\UserControll\UserControll;
 use Anax\Add\HTMLForm\CommentForm;
+use Anax\Add\HTMLForm\AnswerForm;
+use Anax\Add\HTMLForm\PostForm;
 
 // use Anax\Route\Exception\ForbiddenException;
 // use Anax\Route\Exception\NotFoundException;
@@ -42,6 +44,13 @@ class AddController implements ContainerInjectableInterface
         $parentId = (int) $parentId;
 
         $form = new CommentForm($this->di);
+
+        if ($type == "answer") {
+            $form = new AnswerForm($this->di);
+        } else if ($type == "post") {
+            $form = new PostForm($this->di);
+        }
+
         $form->check();
 
         $page = $this->di->get("page");

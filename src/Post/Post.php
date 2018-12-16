@@ -21,7 +21,6 @@ class Post extends ActiveRecordModel
      * @var integer $id         PRIMARY KEY INT AUTO_INCREMENT NOT NULL.
      * @var integer $userId     (FOREGEN - Users) INT NOT NULL.
      * @var string $created     TIMESTAMP DEFAULT CURRENT_TIMESTAMP.
-     * @var integer $likes      INT DEFAULT 0.
      * @var string $title       VARCHAR(200) NOT NULL.
      * @var string $data        TEXT.
      * @var integer $parent     (!FOREGEN SELF) INT DEFAULT NULL.
@@ -30,7 +29,6 @@ class Post extends ActiveRecordModel
     public $id;
     public $userId;
     public $created;
-    public $likes;
     public $title;
     public $data;
     public $parent;

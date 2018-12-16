@@ -53,18 +53,12 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small>
             <h3>Kommentarer</h3>
             Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($ans->id, "comment"))) ?>
-            <?php if ($ans->cdata != null) { ?>
-                <?php foreach ($answers as $ansTwo) : ?>
-                    <?php if ($ansTwo->id == $ansTwo->cpost) { ?>
-                        <?php $commentUser = $usr->getUserInfo("id", $ansTwo->cuser, $di) ?>
-
-                        <small><?= $mdfilter->parse($ansTwo->cdata) ?></small>
-                        <small>Av: <?= $commentUser->username ?></small>
-                    <?php } ?>
-                    <hr>
-                <?php endforeach; ?>
-            <?php } ?>
-        <?php }?>
+            <?php $subComments = $postDb->getAllComments($ans->id, $di); ?>
+            <?php foreach ($subComments as $subC) : ?>
+            <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
+                <small><?= $mdfilter->parse($subC->data) ?></small>
+                <small>Av: <?= $commentUser->username ?></small>
+            <?php endforeach; ?>
+        <?php } ?>
     <?php endforeach; ?>
 <?php } ?>
-

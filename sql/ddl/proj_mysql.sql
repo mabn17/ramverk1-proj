@@ -215,7 +215,8 @@ AS
         U.username AS 'username',
         C.data AS 'cdata',
         C.userId AS 'cuser',
-        C.postId AS 'cpost'
+        C.postId AS 'cpost',
+        C.id AS 'cid'
     FROM
         Posts AS P
     INNER JOIN
