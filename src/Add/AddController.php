@@ -36,7 +36,7 @@ class AddController implements ContainerInjectableInterface
         if ($currUser == null) {
             return $this->di->get("response")->redirect("");
         }
-        if ($parentId <= 0 || !is_numeric($parentId)) {
+        if (!is_numeric($parentId)) {
             return $this->di->get("response")->redirect("");
         }
         $parentId = (int) $parentId;
