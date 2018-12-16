@@ -2,8 +2,6 @@
 
 namespace Anax\View;
 
-
-
 /**
  * Displays all users in a table.
  */
@@ -15,6 +13,6 @@ namespace Anax\View;
 ?><h1 class="text-center">Taggar</h1>
 
 <?php foreach ($tags as $tag) : ?>
-    <p><a href="<?= url($postDb->getTagUrl($tag->id) ) ?>"><?= $tag->tag ?></a></p>
+    <p><a href="<?= url($postDb->getTagUrl($tag->id)) ?>"></p>
 <?php endforeach;
 
