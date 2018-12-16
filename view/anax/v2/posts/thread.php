@@ -55,7 +55,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($ans->id, "comment"))) ?>
             <?php $subComments = $postDb->getAllComments($ans->id, $di); ?>
             <?php foreach ($subComments as $subC) : ?>
-            <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
+                <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
                 <small><?= $mdfilter->parse($subC->data) ?></small>
                 <small>Av: <?= $commentUser->username ?></small>
             <?php endforeach; ?>

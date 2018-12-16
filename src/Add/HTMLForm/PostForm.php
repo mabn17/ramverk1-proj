@@ -9,7 +9,7 @@ use Anax\Add\Comment;
 /**
  * Form to create an item.
  */
-class CommentForm extends FormModel
+class PostForm extends FormModel
 {
     /**
      * Constructor injects with DI container.
