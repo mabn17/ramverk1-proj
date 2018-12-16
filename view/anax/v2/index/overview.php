@@ -25,7 +25,7 @@ $gravatar = new Gravatar;
     <tbody>
     <?php foreach ($popularTags as $tag) : ?>
         <tr>
-            <td><a href="<?= url("tag/$tag->tag") ?>"><?= $tag->tag ?></a></td>
+            <td><a href="<?= url("tags/tag/$tag->id") ?>"><?= $tag->tag ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

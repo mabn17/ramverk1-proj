@@ -159,4 +159,29 @@ class Post extends ActiveRecordModel
 
         return $db;
     }
+
+    /**
+     * For the forum threads, takes in the information needed and returns
+     *      a url to add an answer or comment.
+     *
+     * @param integer|string $parent    The parent id.
+     * @param string $type          Checks if its a comment or answer.
+     */
+    public function addAnswerOrCommentUrl($parent, string $type = "answer") : string
+    {
+        $start = "add";
+        $end = "?type=$type&parentId=$parent";
+
+        return $start . $end;
+    }
+
+    /**
+     * Returns font awsome plus sign
+     *
+     * @param string $url   The url
+     */
+    public function getPlusSign($url) : string
+    {
+        return "<a class='black' href='" . $url . "'><i class='fas fa-plus'></i></a>";
+    }
 }
