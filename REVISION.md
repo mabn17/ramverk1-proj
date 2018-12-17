@@ -1,5 +1,9 @@
 # Revision history
 
+v0.5.1 (2018-12-17)
+-------------------
+* Added "marked as answer" for thread posts.
+
 v0.5.0 (2018-12-17)
 -------------------
 * Cleaned up some code for Travis & Scrutinizer.
