@@ -120,7 +120,7 @@ class PostForm extends FormModel
         $allTags = $postDB->findTags($this->di);
         $tagList = [];
         foreach ($allTags as $tagName) {
-            $tagList[] = $tagName->tag; 
+            $tagList[] = $tagName->tag;
         }
 
         return $tagList;

@@ -33,7 +33,7 @@ class PostToTag extends ActiveRecordModel
     {
         $db = $this->returnDb($di);
         $tags = $db->executeFetch("SELECT * FROM Tags WHERE tag = ?", [$name]);
-        return $tags->id;        
+        return $tags->id;
     }
 
     /**
