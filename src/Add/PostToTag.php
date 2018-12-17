@@ -39,7 +39,7 @@ class PostToTag extends ActiveRecordModel
     /**
      * Returns a connected database.
      *
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      */
     private function returnDb($di)
     {
