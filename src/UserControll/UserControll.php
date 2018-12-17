@@ -20,4 +20,21 @@ class UserControll
         $user = ($session->has("user")) ? $session->get("user") : null;
         return $user;
     }
+
+    /**
+     * Takes a list of arguments then returns true if one is null.
+     *
+     * @param array $validationArray The list with arugments.
+     *
+     * @return bool ture|false
+     */
+    public function validate($validationArray)
+    {
+        foreach ($validationArray as $part) {
+            if ($part == null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

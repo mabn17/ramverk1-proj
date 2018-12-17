@@ -249,4 +249,24 @@ class Post extends ActiveRecordModel
     {
         return "<a href='{$start}/{$mainId}/{$postId}'>Markera som svar</a>";
     }
+
+    /**
+     * Checks if the post is marked as an answer.
+     *
+     * @param object $postObj The post object.
+     * @param integer $mainOrSub 0 if its the question 1 if its an answer.
+     *
+     * @return string|null the response.
+     */
+    public function isAnswerd($postObj, $mainOrSub = 0)
+    {
+        if ($postObj->answerd) {
+            if (!$mainOrSub) {
+                return "<span class='text-success'>[ Besvarad ]</span>";
+            }
+            return "<span class='text-success'>[ V ]</span>";
+        }
+
+        return null;
+    }
 }

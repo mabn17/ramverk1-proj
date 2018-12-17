@@ -77,7 +77,7 @@ class PostController implements ContainerInjectableInterface
         $mainThread = $info["main"];
         $ans = $info["sub"];
 
-        if ($currUser == null || $mainThread == null) {
+        if ($userControll->validate([$currUser, $mainThread])) {
             return $this->di->get("response")->redirect("");
         }
 

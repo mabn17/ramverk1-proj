@@ -17,7 +17,7 @@ $mdfilter = new MdFilter;
 $displayedIds = [];
 $userIsCreator = ($admin->id == $mainUser->id) ? true : false;
 
-?><h1 class="mb-2"><?= $mainThread->title ?></h1>
+?><h1 class="mb-2"><?= $mainThread->title ?> <?= $postDb->isAnswerd($mainThread) ?></h1>
 <!-- Tags för main post -->
 <small>
     Taggar: 
@@ -55,7 +55,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <?php $displayedIds[] = $ans->id ?>
             <div class="p-3"><?= $mdfilter->parse($ans->data) ?></div>
             <img src="<?= $gravatar->getGravatar($ans->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
-            <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small>
+            <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small><br><?= $postDb->isAnswerd($mainThread, 1) ?>
 
             <!-- Sätter en länk som markerar svaret till "Accepterat" -->
             <br><small><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
