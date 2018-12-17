@@ -2,7 +2,7 @@
 
 v0.5.0 (2018-12-17)
 -------------------
-* Cleaned up some code for Travis.
+* Cleaned up some code for Travis & Scrutinizer.
 * Posts can now be created with tags.
 * All base requirements done.
 
