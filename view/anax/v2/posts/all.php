@@ -12,7 +12,7 @@ namespace Anax\View;
 
 
 ?><h1>Frågor</h1>
-
+Skara ny fråga <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl(1, "post"))) ?>
 <?php foreach ($questions as $question) : ?>
     <?php $questUsr = $usr->getUserInfo("id", $question->userId, $di) ?>
 

@@ -4,7 +4,8 @@ namespace Anax\Add\HTMLForm;
 
 use Anax\HTMLForm\FormModel;
 use Psr\Container\ContainerInterface;
-use Anax\Add\Comment;
+use Anax\Post\Post;
+use Anax\Add\PostToTag;
 
 /**
  * Form to create an item.
@@ -31,17 +32,24 @@ class PostForm extends FormModel
                     "value" => $this->di->get("session")->get("user")->id,
                 ],
 
-                "postId" => [
-                    "type" => "hidden",
-                    "class" => "form-control w-50",
-                    "validation" => ["not_empty"],
-                    "value" => $this->di->get("request")->getGet('parentId'),
-                ],
-
                 "created" => [
                     "type" => "hidden",
                     "validation" => ["not_empty"],
                     "value" => date("Y-m-d H:i:s"),
+                ],
+
+                "title" => [
+                    "type" => "text",
+                    "class" => "form-control w-50",
+                    "validation" => ["not_empty"],
+                    "value" => "",
+                ],
+
+                "answerd" => [
+                    "type" => "hidden",
+                    "class" => "form-control w-50",
+                    "validation" => ["not_empty"],
+                    "value" => "0",
                 ],
 
                 "data" => [
@@ -60,7 +68,6 @@ class PostForm extends FormModel
     }
 
 
-
     /**
      * Callback for submit-button which should return true if it could
      * carry out its work and false if something failed.
@@ -69,14 +76,25 @@ class PostForm extends FormModel
      */
     public function callbackSubmit() : bool
     {
-        $comment = new Comment();
-        $comment->setDb($this->di->get("dbqb"));
-        $comment->userId = $this->form->value("userId");
-        $comment->postId = $this->form->value("postId");
-        $comment->created = $this->form->value("created");
-        $comment->data = $this->form->value("data");
-        $comment->save();
+        $postClass = new Post();
+        $tag = new PostToTag();
+        $postClass->setDb($this->di->get("dbqb"));
+        $tag->setDb($this->di->get("dbqb"));
+        $postClass->userId = $this->form->value("userId");
+        $postClass->created = $this->form->value("created");
+        $postClass->title = $this->form->value("title");
+        $postClass->parent = null;
+        $postClass->answerd = $this->form->value("answerd");
+        $postClass->data = $this->form->value("data");
+        $postClass->save();
 
+        $tag->postId = $postClass->getInformationForPost(
+            $this->form->value("title"),
+            $this->form->value("created"),
+            $this->di
+        )->id;
+        $tag->tagId = 1;
+        $tag->save();
         return true;
     }
 
@@ -89,7 +107,7 @@ class PostForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("")->send();
+        $this->di->get("response")->redirect("post")->send();
     }
 
 

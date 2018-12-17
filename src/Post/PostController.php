@@ -41,6 +41,7 @@ class PostController implements ContainerInjectableInterface
             [
                 "questions" => $questions,
                 "usr" => $user,
+                "postDb" => $postDb,
             ]
         );
 
@@ -80,7 +81,7 @@ class PostController implements ContainerInjectableInterface
             return $this->di->get("response")->redirect("");
         }
 
-        $mainUser = $usr->getUserInfo("id", $mainThread->id, $this->di);
+        $mainUser = $usr->getUserInfo("id", $mainThread->userId, $this->di);
 
         $page = $this->di->get("page");
         $viewName = "anax/v2/posts/thread";

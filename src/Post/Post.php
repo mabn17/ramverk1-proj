@@ -182,4 +182,12 @@ class Post extends ActiveRecordModel
     {
         return "<a class='black' href='" . $url . "'><i class='fas fa-plus'></i></a>";
     }
+
+    public function getInformationForPost($title, $created, $di)
+    {
+        $db = $this->returnDb($di);
+        $res = $db->executeFetch("SELECT * FROM Posts WHERE title = ? AND created = ?", [$title, $created]);
+
+        return $res;
+    }
 }
