@@ -58,6 +58,12 @@ class PostForm extends FormModel
                     "validation" => ["not_empty"],
                 ],
 
+                "tags" => [
+                    "type" => "checkbox-multiple",
+                    "class" => "",
+                    "values" => $this->getMyListOfTagsForCheckBoxes(),
+                ],
+
                 "submit" => [
                     "type" => "submit",
                     "value" => "Save",
@@ -77,9 +83,7 @@ class PostForm extends FormModel
     public function callbackSubmit() : bool
     {
         $postClass = new Post();
-        $tag = new PostToTag();
         $postClass->setDb($this->di->get("dbqb"));
-        $tag->setDb($this->di->get("dbqb"));
         $postClass->userId = $this->form->value("userId");
         $postClass->created = $this->form->value("created");
         $postClass->title = $this->form->value("title");
@@ -88,14 +92,38 @@ class PostForm extends FormModel
         $postClass->data = $this->form->value("data");
         $postClass->save();
 
-        $tag->postId = $postClass->getInformationForPost(
+        $checkBoxes = $this->form->value("tags") ?? [];
+        if (empty($checkBoxes)) {
+            $checkBoxes[] = "Other";
+        }
+
+        $postId = $postClass->getInformationForPost(
             $this->form->value("title"),
             $this->form->value("created"),
             $this->di
         )->id;
-        $tag->tagId = 1;
-        $tag->save();
+
+        foreach ($checkBoxes as $box) {
+            $tag = new PostToTag();
+            $tag->setDb($this->di->get("dbqb"));
+            $tag->postId = $postId;
+            $tag->tagId = $tag->findTagIdByName($this->di, $box);
+            $tag->save();
+        }
         return true;
+    }
+
+    private function getMyListOfTagsForCheckBoxes()
+    {
+        $postDB = new Post();
+        $postDB->setDb($this->di->get("dbqb"));
+        $allTags = $postDB->findTags($this->di);
+        $tagList = [];
+        foreach ($allTags as $tagName) {
+            $tagList[] = $tagName->tag; 
+        }
+
+        return $tagList;
     }
 
 
@@ -107,6 +135,10 @@ class PostForm extends FormModel
      */
     public function callbackSuccess()
     {
+        /* $this->form->rememberValues();
+        $this->form->addOutput("Något gick fel.");
+        print_r($this->form->value("tags")); */
+
         $this->di->get("response")->redirect("post")->send();
     }
 
@@ -121,7 +153,7 @@ class PostForm extends FormModel
     public function callbackFail()
     {
         $this->form->rememberValues();
-        $this->form->addOutput("Något gick fel.");
+        $this->form->addOutput("Något gick fel, kolla så att du har markerat minst en tag.");
         $this->di->get("response")->redirectSelf()->send();
     }
 }

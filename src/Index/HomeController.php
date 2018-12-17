@@ -55,7 +55,7 @@ class HomeController implements ContainerInjectableInterface
     /**
      * Renders the about page in markdown.
      */
-    public function aboutActionGet()
+    public function aboutAction()
     {
         $file = ANAX_INSTALL_PATH . "/content/om.md";
         $content = file_get_contents($file);
