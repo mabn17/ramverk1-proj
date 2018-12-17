@@ -15,8 +15,10 @@ use Anax\MdFilter\MdFilter;
 $gravatar = new Gravatar;
 $mdfilter = new MdFilter;
 $displayedIds = [];
+$userIsCreator = ($admin->id == $mainUser->id) ? true : false;
 
 ?><h1 class="mb-2"><?= $mainThread->title ?></h1>
+<!-- Tags för main post -->
 <small>
     Taggar: 
     <?php $str = ""; foreach (explode(",", $mainThread->tagss) as $subTag) : ?>
@@ -27,11 +29,13 @@ $displayedIds = [];
     <?= $str ?>
 </small>
 
+<!-- Innehåll för main post -->
 <div class="p-3"><?= $mdfilter->parse($mainThread->data) ?></div>
 <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
 <small>Inskickad <?= $mainThread->created ?> av <?= $mainUser->username ?></small>
 <?php $comments = $postDb->getAllComments($mainThread->id, $di) ?>
 
+<!-- Kommentarer för main post -->
 <h3>Kommentarer</h3>
 Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "comment"))) ?>
 <?php if ($comments != null) { ?>
@@ -42,6 +46,7 @@ Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl
     <?php endforeach; ?>
 <?php } ?>
 
+<!-- Svar till main post -->
 <h2>Svar</h2>
 Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "answer"))) ?>
 <?php if ($answers != null) { ?>
@@ -51,6 +56,11 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <div class="p-3"><?= $mdfilter->parse($ans->data) ?></div>
             <img src="<?= $gravatar->getGravatar($ans->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
             <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small>
+
+            <!-- Sätter en länk som markerar svaret till "Accepterat" -->
+            <br><small><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
+
+            <!-- Kommentarer för sub post -->
             <h3>Kommentarer</h3>
             Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($ans->id, "comment"))) ?>
             <?php $subComments = $postDb->getAllComments($ans->id, $di); ?>

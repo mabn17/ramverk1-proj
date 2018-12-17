@@ -57,7 +57,7 @@ class PostController implements ContainerInjectableInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function postActionGet($id = 0) : object
+    public function postActionGet($id = 0, $isAnswerd = 0) : object
     {
         // Checks for a valid post id
         if ($id <= 0 || !is_numeric($id)) {
@@ -81,8 +81,11 @@ class PostController implements ContainerInjectableInterface
             return $this->di->get("response")->redirect("");
         }
 
-        $mainUser = $usr->getUserInfo("id", $mainThread->userId, $this->di);
+        if ($isAnswerd != 0) {
+            $postDb->markPostAsAnswerd($isAnswerd, $id, $this->di);
+        }
 
+        $mainUser = $usr->getUserInfo("id", $mainThread->userId, $this->di);
         $page = $this->di->get("page");
         $viewName = "anax/v2/posts/thread";
 
@@ -91,6 +94,7 @@ class PostController implements ContainerInjectableInterface
             [
                 "mainThread" => $mainThread,
                 "mainUser" => $mainUser,
+                "admin" => $currUser,
                 "usr" => $usr,
                 "answers" => $ans,
                 "postDb" => $postDb,

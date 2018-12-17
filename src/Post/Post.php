@@ -56,7 +56,15 @@ class Post extends ActiveRecordModel
         ];
     }
 
-    public function findPostsForMyTag($id, $di)
+    /**
+     * Translates The Tag name to id, also prepares the array for the PostForm.
+     *
+     * @param integer|string $id    The tag id.
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     *
+     * @return array with the main posts and its tags.
+     */
+    public function findPostsForMyTag($id, $di) : array
     {
         $db = $this->returnDb($di);
         $res = $db->executeFetchAll("SELECT * FROM HeadCommentAndTags");
@@ -101,7 +109,10 @@ class Post extends ActiveRecordModel
     /**
      * Checks the database and returns all tags.
      *
+     * @param \Psr\Container\ContainerInterface $di a service container.
      * @param integer $limit    Default 0, The number of tags returned.
+     *
+     * @return array|null  list with the popular tags.
      */
     public function findTags($di, $limit = 0)
     {
@@ -117,6 +128,12 @@ class Post extends ActiveRecordModel
 
     /**
      * Returns a url so the user can look at spesific tags
+     *
+     * @param string|integer $id    the tag id.
+     * @param integer $isName       checks for an alternative path.
+     * @param \Psr\Container\ContainerInterface|null $di a service container.
+     *
+     * @return string an url.
      */
     public function getTagUrl($id, $isName = 0, $di = null) : string
     {
@@ -136,6 +153,9 @@ class Post extends ActiveRecordModel
      * Checks for all comments to the given id
      *
      * @param integer $id   the post id
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     *
+     * @return array|null a list with all comments.
      */
     public function getAllComments($id, $di)
     {
@@ -148,7 +168,7 @@ class Post extends ActiveRecordModel
     /**
      * Returns a connected database.
      *
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      */
     private function returnDb($di)
     {
@@ -164,6 +184,8 @@ class Post extends ActiveRecordModel
      *
      * @param integer|string $parent    The parent id.
      * @param string $type          Checks if its a comment or answer.
+     *
+     * @return string the url.
      */
     public function addAnswerOrCommentUrl($parent, string $type = "answer") : string
     {
@@ -176,18 +198,55 @@ class Post extends ActiveRecordModel
     /**
      * Returns font awsome plus sign
      *
-     * @param string $url   The url
+     * @param string $url   The url.
+     *
+     * @return string the fontawsome symbol.
      */
     public function getPlusSign($url) : string
     {
         return "<a class='black' href='" . $url . "'><i class='fas fa-plus'></i></a>";
     }
 
+    /**
+     * Gets the last inserted id so PostForm can refer to the ceater post.
+     *
+     * @param integer|string $title     The posts title.
+     * @param string $created   The time and date the post was made.
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     *
+     * @return object|null The post id
+     */
     public function getInformationForPost($title, $created, $di)
     {
         $db = $this->returnDb($di);
         $res = $db->executeFetch("SELECT * FROM Posts WHERE title = ? AND created = ?", [$title, $created]);
 
         return $res;
+    }
+
+    /**
+     * Updates the database and sets the main + the given sub post as answerd.
+     *
+     * @param integer|string $postId    The sub post id.
+     * @param integer|string $mainId    The main post id.
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     */
+    public function markPostAsAnswerd($postId, $mainId, $di)
+    {
+        $db = $this->returnDb($di);
+        $db->execute("UPDATE Posts SET answerd = 1 WHERE id = ?", [$postId]);
+        $db->execute("UPDATE Posts SET answerd = 1 WHERE id = ?", [$mainId]);
+    }
+
+    /**
+     * A link to trigger a post as answerd.
+     *
+     * @param integer|string $postId  The post id
+     *
+     * @return string the url that triggers the update.
+     */
+    public function getMarkAsAnswerLink($start, $mainId, $postId) : string
+    {
+        return "<a href='{$start}/{$mainId}/{$postId}'>Markera som svar</a>";
     }
 }
