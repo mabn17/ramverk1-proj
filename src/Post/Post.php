@@ -276,18 +276,40 @@ class Post extends ActiveRecordModel
      * @param string|integer $id  The post/comment Id.
      * @param string $type        The type (post or comment).
      * @param \Psr\Container\ContainerInterface $di a service container.
+     * @param string $start       The base url.
      *
-     * @return integer|string  The total amount of likes/dislikes - defaults to 0.
+     * @return string  The total amount of likes/dislikes - defaults to 0 
+     *                                                      and two urls.
      */
-    public function getLikes($id, $type, $di)
+    public function getLikes($id, $type, $di, $start)
     {
         $db = $this->returnDb($di);
         $res = $db->executeFetch(
             "SELECT SUM(points) AS 'totalPoints' FROM Likes WHERE destinationId = ? AND type = ?",
             [$id, $type]
         );
-        $points = ($res != null) ? $res->totalPoints : 0;
+        $points = (string) ($res->totalPoints != null) ? $res->totalPoints : "0";
 
-        return (string) $points;
+        return "<br> Poäng: {$points} <br> {$this->voteUrls($type, $id, $start)}";
+    }
+
+    /**
+     * Private - Gets a like and a dislike url for 
+     *                              $this->getLikes
+     *
+     * @param string $type          If its a comment or post.
+     * @param integer|string $id    The post/comment id.
+     * @param string $start         The base url
+     *
+     * @return string   urls for liking and dislikeing the post.
+     */
+    public function voteUrls($type, $id, $start)
+    {
+        $like = "{$start}/vote/like/{$type}/{$id}";
+        $dislike = "{$start}/vote/dislike/{$type}/{$id}";
+        $likeUrl = "<a href='$like' class='black'><b>+</b></a>";
+        $dislikeUrl = "<a href='$dislike' class='black'><b>-</b></a>";
+
+        return " | $likeUrl | {$dislikeUrl} |";
     }
 }
