@@ -1,11 +1,11 @@
 engines:
     phpmd:
         enabled: true
-        config:
-            file_extensions: "php"
         checks:
             Naming/ShortVariable:
             enabled: false
+        config:
+            file_extensions: "php"
 
     phpcodesniffer:
         enabled: true
