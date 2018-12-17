@@ -127,7 +127,7 @@ VALUES (1, 2), (2, 3), (3, 4), (1, 1), (2, 1); -- Add a postId with tagId 1 when
 
 
 
-CREATE TABLE Likes
+CREATE TABLE `Likes`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
     `type` VARCHAR(20),
@@ -137,7 +137,12 @@ CREATE TABLE Likes
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
-) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+);
+
+INSERT INTO `Likes` (`type`, `userId`, `destinationId`, `points`)
+VALUES
+    ("comment", 1, 1, 1), ("comment", 3, 1, 1),
+    ("post", 2, 1, -1), ("post", 2, 3, 1), ("post", 1, 4, 1), ("post", 1, 4, 1), ("post", 1, 4, 1);
 
 
 CREATE VIEW `HeadCommentAndTags`
@@ -222,4 +227,18 @@ AS
     INNER JOIN
         Users AS U ON U.id = P.userId
     LEFT JOIN
-        Comments AS C ON C.postId = P.id;
+        Comments AS C ON C.postId = P.id
+    GROUP BY P.id;
+
+DELIMITER ;;
+
+DROP PROCEDURE IF EXISTS `GetAllTheLikes`;;
+CREATE PROCEDURE `GetAllTheLikes`
+( pDestinationId INT, pType VARCHAR(20))
+BEGIN
+    SELECT SUM(points) AS 'totalPoints'
+        From Likes
+    WHERE destinationId = pDestinationId AND type = pType;
+END;;
+
+DELIMITER ;

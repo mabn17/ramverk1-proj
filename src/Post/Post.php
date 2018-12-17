@@ -269,4 +269,25 @@ class Post extends ActiveRecordModel
 
         return null;
     }
+
+    /**
+     * Gets the number of likes the post or comment has.
+     *
+     * @param string|integer $id  The post/comment Id.
+     * @param string $type        The type (post or comment).
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     *
+     * @return integer|string  The total amount of likes/dislikes - defaults to 0.
+     */
+    public function getLikes($id, $type, $di)
+    {
+        $db = $this->returnDb($di);
+        $res = $db->executeFetch(
+            "SELECT SUM(points) AS 'totalPoints' FROM Likes WHERE destinationId = ? AND type = ?",
+            [$id, $type]
+        );
+        $points = ($res != null) ? $res->totalPoints : 0;
+
+        return (string) $points;
+    }
 }

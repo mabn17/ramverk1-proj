@@ -8,9 +8,6 @@ use Anax\MdFilter\MdFilter;
 /**
  * View to create a new book.
  */
-// Show all incoming variables/functions
-//var_dump(get_defined_functions());
-//echo showEnvironment(get_defined_vars());
 
 $gravatar = new Gravatar;
 $mdfilter = new MdFilter;
@@ -33,6 +30,7 @@ $userIsCreator = ($admin->id == $mainUser->id) ? true : false;
 <div class="p-3"><?= $mdfilter->parse($mainThread->data) ?></div>
 <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
 <small>Inskickad <?= $mainThread->created ?> av <?= $mainUser->username ?></small>
+<small>Poäng: <?= $postDb->getLikes($mainThread->id, "post", $di) ?> || +1 || -1 </small>
 <?php $comments = $postDb->getAllComments($mainThread->id, $di) ?>
 
 <!-- Kommentarer för main post -->
@@ -43,6 +41,7 @@ Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl
         <?php $mainCommentUsers = $usr->getUserInfo("id", $comment->userId, $di) ?>
         <small><?= $mdfilter->parse($comment->data) ?></small>
         <small>Av: <?= $mainCommentUsers->username ?></small>
+        <small>Poäng: <?= $postDb->getLikes($comment->id, "comment", $di) ?> || +1 || -1 </small>
     <?php endforeach; ?>
 <?php } ?>
 
@@ -55,10 +54,11 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <?php $displayedIds[] = $ans->id ?>
             <div class="p-3"><?= $mdfilter->parse($ans->data) ?></div>
             <img src="<?= $gravatar->getGravatar($ans->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
-            <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small><br><?= $postDb->isAnswerd($mainThread, 1) ?>
+            <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small><br><?= $postDb->isAnswerd($ans, 1) ?>
 
             <!-- Sätter en länk som markerar svaret till "Accepterat" -->
             <br><small><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
+            <small>Poäng: <?= $postDb->getLikes($ans->id, "post", $di) ?> || +1 || -1 </small>
 
             <!-- Kommentarer för sub post -->
             <h3>Kommentarer</h3>
@@ -68,6 +68,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
                 <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
                 <small><?= $mdfilter->parse($subC->data) ?></small>
                 <small>Av: <?= $commentUser->username ?></small>
+                <small>Poäng: <?= $postDb->getLikes($ans->id, "comment", $di) ?> || +1 || -1 </small>
             <?php endforeach; ?>
         <?php } ?>
     <?php endforeach; ?>

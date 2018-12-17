@@ -1,17 +1,23 @@
 # Revision history
 
+v0.5.2 (2018-12-17)
+-------------------
+* "Points" for comments and posts are now displayed.
+
 v0.5.1 (2018-12-17)
 -------------------
-* Added "marked as answer" for thread posts.
+* Cleaned up some code for Travis & Scrutinizer.
+* Added "marked as answer" for sub posts.
+* Added "marked as answer" for main posts.
 
 v0.5.0 (2018-12-17)
 -------------------
-* Cleaned up some code for Travis & Scrutinizer.
 * Posts can now be created with tags.
 * All base requirements done.
 
 v0.4.9 (2018-12-17)
 -------------------
+* Cleaned up some code for Travis & Scrutinizer.
 * You can now add posts without tags (project base requirements)
 
 v0.4.8 (2018-12-16)

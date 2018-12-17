@@ -83,6 +83,7 @@ class PostController implements ContainerInjectableInterface
 
         if ($isAnswerd != 0) {
             $postDb->markPostAsAnswerd($isAnswerd, $id, $this->di);
+            return $this->di->get("response")->redirect("post/post/$id");
         }
 
         $mainUser = $usr->getUserInfo("id", $mainThread->userId, $this->di);
