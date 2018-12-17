@@ -20,11 +20,9 @@ class HomeController implements ContainerInjectableInterface
     /**
      * Handles the index page.
      *
-     * @param string|null no real function, just for error handling.
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function indexAction($args = null) : object
+    public function indexAction(/* $args = null */) : object
     {
         $userControll = new \Anax\UserControll\UserControll;
         $user = new User();

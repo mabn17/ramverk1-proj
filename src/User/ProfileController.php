@@ -4,9 +4,9 @@ namespace Anax\User;
 
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
-use Anax\UserControll\UserControll;
 use Anax\User\HTMLForm\EdditForm;
 
+//use Anax\UserControll\UserControll;
 /**
  * A controller for flat file markdown content.
  */
@@ -19,11 +19,11 @@ class ProfileController implements ContainerInjectableInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function indexAction($args = null) : object
+    public function indexAction(/* $args = null */) : object
     {
         $userControll = new \Anax\UserControll\UserControll;
-        $user = new \Anax\Index\User();
-        $user->setDb($this->di->get("dbqb"));
+        /* $user = new \Anax\Index\User();
+        $user->setDb($this->di->get("dbqb")); */
 
         $viewName = "anax/v2/user/profile";
 
