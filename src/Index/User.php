@@ -36,7 +36,7 @@ class User extends ActiveRecordModel
      *
      * @param string $quer      The matching search param
      * @param integer $id       The user identification
-     * @param Psr\Container\ContainerInterface $di a service container
+     * @param \Psr\Container\ContainerInterface $di a service container
      *
      * @return object|null  $res The user
      */

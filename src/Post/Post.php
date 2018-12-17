@@ -80,7 +80,7 @@ class Post extends ActiveRecordModel
     /**
      * Returns all the comments and answers for the thread.
      *
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      * @param integer $amount                      Nr of posts.
      *
      * @return array with all the answers and comment ind the given post thread
