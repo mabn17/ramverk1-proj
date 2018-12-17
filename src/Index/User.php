@@ -52,7 +52,7 @@ class User extends ActiveRecordModel
      * Returns all the comments and posts the user has made.
      *
      * @param integer $id                          The user id.
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      *
      * @return array with all the posts and comment made by the given user id
      */

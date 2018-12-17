@@ -39,9 +39,9 @@ class Post extends ActiveRecordModel
      *
      * @param string $quer      The matching search param
      * @param integer $id       The post identification
-     * @param Psr\Container\ContainerInterface $di a service container
+     * @param \Psr\Container\ContainerInterface $di a service container
      *
-     * @return object|null  $res The user
+     * @return array  The main and sub posts of the thread id.
      */
     public function getPostInfo($quer, $id, $di)
     {
