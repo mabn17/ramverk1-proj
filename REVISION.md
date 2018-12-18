@@ -2,6 +2,13 @@
 
 v0.5.2 (2018-12-17)
 -------------------
+* Answers can now be sorted after "points" and created (same as id).
+* Added extra information about the question threads overwiew:
+    * How many upvotes the question has.
+    * The number of answers.
+
+v0.5.2 (2018-12-17)
+-------------------
 * Fixed some comment bugs and an if statement in VoteController.
 * You can now "up-vote" and "down-vote" commans, posts and questions.
 * "Points" for comments and posts are now displayed.
