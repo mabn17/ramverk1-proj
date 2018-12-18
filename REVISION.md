@@ -1,6 +1,6 @@
 # Revision history
 
-v0.5.2 (2018-12-17)
+v0.5.3 (2018-12-17)
 -------------------
 * Answers can now be sorted after "points" and created (same as id).
 * Added extra information about the question threads overwiew:
