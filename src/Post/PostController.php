@@ -73,9 +73,7 @@ class PostController implements ContainerInjectableInterface
 
         $postDb->setDb($this->di->get("dbqb"));
 
-        $info = ($sorted)
-            ? $postDb->getPostInfo("id", $id, $this->di, 1)
-            : $postDb->getPostInfo("id", $id, $this->di);
+        $info = $postDb->getPostInfo("id", $id, $this->di, $sorted);
 
         $mainThread = $info["main"];
         $ans = $info["sub"];

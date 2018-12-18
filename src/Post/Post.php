@@ -45,7 +45,7 @@ class Post extends ActiveRecordModel
      *
      * @return array  The main and sub posts of the thread id.
      */
-    public function getPostInfo($quer, $id, $di, $orderByLikes = 0)
+    public function getPostInfo($quer, $id, $di, $orderByLikes = null)
     {
         $db = $this->returnDb($di);
         $sql = "SELECT * FROM GetSubPosts WHERE parent = $id";
