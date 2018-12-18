@@ -1,5 +1,9 @@
 # Revision history
 
+v0.6.0 (2018-12-19)
+-------------------
+* Added a reputation system.
+
 v0.5.4 (2018-12-17)
 -------------------
 * Deleted some unused files (Book).
