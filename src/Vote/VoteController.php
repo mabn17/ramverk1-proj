@@ -26,7 +26,7 @@ class VoteController implements ContainerInjectableInterface
         $userControll = new UserControll();
         $cUser = $userControll->hasLoggedInUser($this->di);
 
-        if ($cUser->id == null) {
+        if (!$cUser) {
             return $this->di->get("response")->redirect("");
         }
 
