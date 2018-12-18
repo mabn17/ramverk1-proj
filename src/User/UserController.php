@@ -38,6 +38,7 @@ class UserController implements ContainerInjectableInterface
             $viewName,
             [
                 "users" => $user->findAll(),
+                "usr" => $user
             ]
         );
 

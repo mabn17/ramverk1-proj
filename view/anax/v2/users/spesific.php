@@ -15,7 +15,6 @@ use Anax\MdFilter\MdFilter;
 
 $mdfilter = new MdFilter;
 $gravatar = new Gravatar;
-$prep = require ANAX_INSTALL_PATH . "/config/calculate_points.php";
 ?><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar">
 <br><small>Ryckte: <?= $usr->calcUserPoints($person->id, $di) ?></small>
 <br><small>Antal Röster Lagda: <?= $usr->calcVotesMade($person->id, $di) ?> </small>

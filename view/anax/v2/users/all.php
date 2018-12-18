@@ -31,7 +31,7 @@ $gravatar = new Gravatar;
                 <td><a href="<?= url("users/user/" . $person->id) ?>"><?= $person->username ?></a></td>
                 <td><?= $person->email ?></td>
                 <td><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar"></td>
-                <td>0</td>
+                <td><?= $usr->calcUserPoints($person->id, $di) ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

@@ -311,16 +311,22 @@ CREATE VIEW `userLikesForComments`
 AS
     SELECT
         U.id AS 'userId',
-        COALESCE(SUM(L.points), 0) AS 'totalPoints'
+        COALESCE(SUM(L.points),0) AS 'totalPoints',
+        COALESCE(GROUP_CONCAT(C.id), 0) AS 'valda posts för kommentarer',
+        COALESCE(GROUP_CONCAT(L.points),0) AS 'poäng för kommentarer'
     FROM
         Users AS U
-    LEFT JOIN
+    LEFT OUTER JOIN
         Comments AS C ON U.id = C.userId
-    LEFT OUTER JOIN Likes AS L ON L.destinationId = C.id 
+    LEFT OUTER JOIN Likes AS L ON L.destinationId = C.id
                                 AND L.type = "comment"
     GROUP BY U.id
+-- --------------------------------------------------
+    /* SELECT destinationId as 'destinationId',
+            SUM(points) as 'totalPoints', 
+            type as 'type'
+    FROM Likes AS L */
+-- ------------------------------------------------- 
 ;
 
-SELECT * FROM userLikesForComments WHERE userId = 2;
---
-SELECT * FROM userLikesForPosts WHERE userId = 2;
+SELECT * FROM userLikesForComments;
