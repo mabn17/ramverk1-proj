@@ -14,6 +14,11 @@ $mdfilter = new MdFilter;
 $displayedIds = [];
 $userIsCreator = ($admin->id == $mainUser->id) ? true : false;
 
+/* Svaren på en fråga kan sorteras och visas antingen enligt
+                        datum, eller rank (antalet röster). */
+// Lös detta med om ?sort=votes ->
+//     gör en array av dessa värden och sortera dem i controllern.
+
 ?><h1 class="mb-2"><?= $mainThread->title ?> <?= $postDb->isAnswerd($mainThread) ?></h1>
 <!-- Tags för main post -->
 <small>

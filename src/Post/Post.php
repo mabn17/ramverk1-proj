@@ -40,15 +40,21 @@ class Post extends ActiveRecordModel
      * @param string $quer      The matching search param
      * @param integer $id       The post identification
      * @param \Psr\Container\ContainerInterface $di a service container
+     * @param integer $orderByLikes Used as a bool, if true returns "sub"
+     *                                              orderd by points.
      *
      * @return array  The main and sub posts of the thread id.
      */
-    public function getPostInfo($quer, $id, $di)
+    public function getPostInfo($quer, $id, $di, $orderByLikes = 0)
     {
         $db = $this->returnDb($di);
+        $sql = "SELECT * FROM GetSubPosts WHERE parent = $id";
+        if ($orderByLikes) {
+            $sql .= " ORDER BY totalPoints DESC";
+        }
 
         $res = $db->executeFetch("SELECT * FROM HeadCommentAndTags WHERE $quer = ?", [$id]);
-        $resTwo = $db->executeFetchAll("SELECT * FROM GetSubPosts WHERE parent = $id");
+        $resTwo = $db->executeFetchAll(/* "SELECT * FROM GetSubPosts WHERE parent = $id" */$sql);
 
         return [
             "main" => $res,

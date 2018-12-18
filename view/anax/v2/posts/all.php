@@ -9,11 +9,6 @@ namespace Anax\View;
 // Show incoming variables and view helper functions
 //echo showEnvironment(get_defined_vars(), get_defined_functions());
 
-/* Svaren på en fråga kan sorteras och visas antingen enligt
-                        datum, eller rank (antalet röster). */
-// Lös detta med om ?sort=votes ->
-//     gör en array av dessa värden och sortera dem i controllern.
-
 ?><h1>Frågor</h1>
 Skara ny fråga <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl(1, "post"))) ?>
 <?php foreach ($questions as $question) : ?>

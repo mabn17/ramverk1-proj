@@ -66,14 +66,17 @@ class PostController implements ContainerInjectableInterface
 
         $userControll = new UserControll;
         $currUser = $userControll->hasLoggedInUser($this->di);
+        $sorted = $this->di->get("request")->getGet("sorted");
         $id = (int) $id;
         $postDb = new Post();
         $usr = new User();
 
         $postDb->setDb($this->di->get("dbqb"));
 
-        // !UPDTADE SO IT ALSO ONLT GETS WHERE PARENT == NULL!
-        $info = $postDb->getPostInfo("id", $id, $this->di);
+        $info = ($sorted)
+            ? $postDb->getPostInfo("id", $id, $this->di, 1)
+            : $postDb->getPostInfo("id", $id, $this->di);
+
         $mainThread = $info["main"];
         $ans = $info["sub"];
 

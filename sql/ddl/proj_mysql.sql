@@ -216,6 +216,7 @@ AS
         P.data AS 'data',
         P.parent AS 'parent',
         P.answerd AS 'answerd',
+        COALESCE(SUM(L.points), 0) AS 'totalPoints',
         U.email AS 'email',
         U.username AS 'username',
         C.data AS 'cdata',
@@ -228,6 +229,8 @@ AS
         Users AS U ON U.id = P.userId
     LEFT JOIN
         Comments AS C ON C.postId = P.id
+    LEFT OUTER JOIN Likes AS L ON L.destinationId = P.id 
+                                AND L.type = "post"
     GROUP BY P.id;
 
 DELIMITER ;;
