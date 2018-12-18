@@ -2,6 +2,7 @@
 
 v0.5.4 (2018-12-17)
 -------------------
+* Cleaned up in PostController.
 * Answers can now be sorted after "points" and created (same as id).
 * Added extra information about the question threads overwiew:
     * How many upvotes the question has.
