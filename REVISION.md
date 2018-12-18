@@ -2,6 +2,7 @@
 
 v0.5.2 (2018-12-17)
 -------------------
+* Fixed some comment bugs and an if statement in VoteController.
 * You can now "up-vote" and "down-vote" commans, posts and questions.
 * "Points" for comments and posts are now displayed.
 
