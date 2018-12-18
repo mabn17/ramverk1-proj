@@ -278,7 +278,7 @@ class Post extends ActiveRecordModel
      * @param \Psr\Container\ContainerInterface $di a service container.
      * @param string $start       The base url.
      *
-     * @return string  The total amount of likes/dislikes - defaults to 0 
+     * @return string  The total amount of likes/dislikes - defaults to 0
      *                                                      and two urls.
      */
     public function getLikes($id, $type, $di, $start)
@@ -294,7 +294,7 @@ class Post extends ActiveRecordModel
     }
 
     /**
-     * Private - Gets a like and a dislike url for 
+     * Private - Gets a like and a dislike url for
      *                              $this->getLikes
      *
      * @param string $type          If its a comment or post.

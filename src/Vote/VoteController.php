@@ -21,12 +21,12 @@ class VoteController implements ContainerInjectableInterface
      * @param string $type  Desides if it handles a post or a comment.
      * @param string|integer $id  The comment/post id.
      */
-    private function doesThisWork($action, $type = null, $id = null)
+    private function doesThisWork($action, $type = "", $id = 0)
     {
         $userControll = new UserControll();
         $cUser = $userControll->hasLoggedInUser($this->di);
 
-        if (!$cUser || !$id || !$type) {
+        if (!$cUser || !$id) {
             return $this->di->get("response")->redirect("");
         }
 
