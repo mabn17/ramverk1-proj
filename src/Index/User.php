@@ -89,7 +89,7 @@ class User extends ActiveRecordModel
      *                                      where it was posted.
      *
      * @param object $comment the current comment
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      *
      * @return string the url for to the main thread
      */
@@ -117,7 +117,7 @@ class User extends ActiveRecordModel
     /**
      * Returns a connected database.
      *
-     * @param Psr\Container\ContainerInterface $di A service container.
+     * @param \Psr\Container\ContainerInterface $di A service container.
      */
     private function returnDb($di)
     {
