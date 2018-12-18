@@ -115,6 +115,45 @@ class User extends ActiveRecordModel
     }
 
     /**
+     * Calculates the users reputation, you can change how much the values -
+     *           are worth in ANAX_INSTALL_PATH /config/calculate_points.php
+     */
+    public function calcUserPoints($id, $di)
+    {
+        $values = require ANAX_INSTALL_PATH . "/config/calculate_points.php";
+        $db = $this->returnDb($di);
+
+        $info = $db->executeFetch("CALL getAllUserPoints($id)");
+        $comments = $db->executeFetch(
+            "SELECT * FROM userLikesForComments WHERE userId = ?",
+            [$id]
+        )->totalPoints;
+        $posts = $db->executeFetch(
+            "SELECT * FROM userLikesForPosts WHERE userId = ?",
+            [$id]
+        )->totalPoints;
+
+        $totalPoints =
+            ($info->questionsMade * $values["question"]) +
+            ($info->answersMade * $values["answer"]) +
+            ($info->commentsMade * $values["comment"]) +
+            (($comments + $posts) * $values["points"])
+        ;
+
+        return (string) $totalPoints;
+    }
+
+    public function calcVotesMade($id, $di)
+    {
+        $db = $this->returnDb($di);
+        $res = $db->executeFetch(
+            "SELECT COALESCE(COUNT(*), 0) AS 's' FROM Likes WHERE userId = ?",
+            [$id]
+        )->s;
+        return (string) $res;
+    }
+
+    /**
      * Returns a connected database.
      *
      * @param \Psr\Container\ContainerInterface $di A service container.

@@ -14,6 +14,12 @@
 -- Ensure UTF8 on the database connection
 SET NAMES utf8;
 
+DROP VIEW IF EXISTS `userLikesForComments`;
+DROP VIEW IF EXISTS `userLikesForPosts`;
+DROP PROCEDURE IF EXISTS `getAllUserPoints`;
+DROP VIEW IF EXISTS `CalcUserPoints`;
+DROP PROCEDURE IF EXISTS `GetMostActiveUsers`;
+DROP PROCEDURE IF EXISTS `GetAllTheLikes`;
 DROP VIEW IF EXISTS `GetSubPosts`;
 DROP PROCEDURE IF EXISTS `GetMostActiveUsers`;
 DROP PROCEDURE IF EXISTS `GetPopularTags`;
@@ -41,7 +47,8 @@ INSERT INTO `Users` (`username`, `password`, `email`)
 VALUES
     ('mabn17', MD5("pass"), 'martin.d@live.se'),
     ('admin', MD5("admin"), 'admin@admin.com'),
-    ('doe', MD5("doe"), 'doe@doe.com')
+    ('doe', MD5("doe"), 'doe@doe.com'),
+    ('ha', MD5("ha"), "ha@ha.com")
 ;
 
 
@@ -142,7 +149,8 @@ CREATE TABLE `Likes`
 INSERT INTO `Likes` (`type`, `userId`, `destinationId`, `points`)
 VALUES
     ("comment", 1, 1, 1), ("comment", 3, 1, 1),
-    ("post", 2, 1, -1), ("post", 2, 3, 1), ("post", 1, 4, 1), ("post", 1, 4, 1), ("post", 1, 4, 1);
+    ("post", 2, 1, -1), ("post", 2, 3, 1), ("post", 1, 4, 1), ("post", 1, 4, 1), ("post", 1, 4, 1),
+    ("comment", 1, 2, -1);
 
 
 CREATE VIEW `HeadCommentAndTags`
@@ -187,7 +195,7 @@ END
 DELIMITER ;
 
 DELIMITER ;;
-DROP PROCEDURE IF EXISTS `GetMostActiveUsers`;;
+
 CREATE PROCEDURE `GetMostActiveUsers`
 ()
 BEGIN
@@ -235,7 +243,6 @@ AS
 
 DELIMITER ;;
 
-DROP PROCEDURE IF EXISTS `GetAllTheLikes`;;
 CREATE PROCEDURE `GetAllTheLikes`
 ( pDestinationId INT, pType VARCHAR(20))
 BEGIN
@@ -245,3 +252,75 @@ BEGIN
 END;;
 
 DELIMITER ;
+
+
+CREATE VIEW `CalcUserPoints`
+AS
+    SELECT
+        U.id AS 'id',
+        U.username AS "username",
+        U.email AS 'email',
+        COALESCE(COUNT(P.userId), 0) AS 'postsMade',
+        COALESCE(COUNT(C.userId), 0) AS 'commentsMade',
+        COALESCE(SUM(L.points), 0) AS 'totalPoints'
+    FROM Users AS U
+    INNER JOIN Posts AS P ON P.userId = U.id
+    INNER JOIN Comments AS C ON C.userId = U.id
+    INNER JOIN Likes AS L ON L.userId = U.id
+    GROUP BY U.id;
+
+
+DELIMITER ;;
+
+CREATE PROCEDURE `getAllUserPoints`
+( pUid INT )
+BEGIN
+
+    DECLARE questionsMade INT;
+    DECLARE answersMade INT;
+    DECLARE commentsMade INT;
+
+    SET questionsMade = (SELECT COALESCE(COUNT(*), 0) FROM Posts WHERE userId = pUid AND parent IS NULL);
+    SET answersMade = (SELECT COALESCE(COUNT(*), 0) FROM Posts WHERE userId = pUid AND parent IS NOT NULL);
+    SET commentsMade = (SELECT COALESCE(COUNT(*), 0) FROM Comments WHERE userId = pUid);
+
+    SELECT
+        questionsMade,
+        answersMade,
+        commentsMade;
+END;;
+
+DELIMITER ;
+
+
+CREATE VIEW `userLikesForPosts`
+AS
+    SELECT
+        U.id AS 'userId',
+        COALESCE(SUM(L.points), 0) AS 'totalPoints'
+    FROM
+        Users AS U
+    LEFT JOIN
+        Posts AS P ON U.id = P.userId
+    LEFT OUTER JOIN Likes AS L ON L.destinationId = P.id 
+                                AND L.type = "post"
+    GROUP BY P.userId
+;
+
+CREATE VIEW `userLikesForComments`
+AS
+    SELECT
+        U.id AS 'userId',
+        COALESCE(SUM(L.points), 0) AS 'totalPoints'
+    FROM
+        Users AS U
+    LEFT JOIN
+        Comments AS C ON U.id = C.userId
+    LEFT OUTER JOIN Likes AS L ON L.destinationId = C.id 
+                                AND L.type = "comment"
+    GROUP BY U.id
+;
+
+SELECT * FROM userLikesForComments WHERE userId = 2;
+--
+SELECT * FROM userLikesForPosts WHERE userId = 2;

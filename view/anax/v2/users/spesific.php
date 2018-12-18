@@ -14,13 +14,18 @@ use Anax\MdFilter\MdFilter;
 //echo showEnvironment(get_defined_vars());
 
 $mdfilter = new MdFilter;
-
-?><h1 class="text-center">Översikt - <?= $person->username ?></h1>
+$gravatar = new Gravatar;
+$prep = require ANAX_INSTALL_PATH . "/config/calculate_points.php";
+?><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar">
+<br><small>Ryckte: <?= $usr->calcUserPoints($person->id, $di) ?></small>
+<br><small>Antal Röster Lagda: <?= $usr->calcVotesMade($person->id, $di) ?> </small>
+<h1 class="text-center">Översikt - <?= $person->username ?></h1>
 
 <h2>Forum inlägg</h2>
 <table class="table">
     <thead class="thead-light">
         <tr>
+            <th scope="col">Typ</th>
             <th scope="col">Inlägg</th>
             <th scope="col">Läs</th>
         </tr>
@@ -28,7 +33,8 @@ $mdfilter = new MdFilter;
     <tbody>
     <?php foreach ($data["posts"] as $posts) : ?>
         <tr>
-            <td><?= $mdfilter->parse($posts->data) ?></td>
+            <td><?= ($posts->parent !== null) ? "Svar" : "Fråga" ?></td>
+            <td><?= mb_substr($mdfilter->parse($posts->data), 0, 30) . " ..." ?></td>
             <td><a href="<?= url($usr->getPostUrl($posts)) ?>">Kolla Inlägg</a></td>
         </tr>
     <?php endforeach; ?>
@@ -46,10 +52,9 @@ $mdfilter = new MdFilter;
     <tbody>
     <?php foreach ($data["comments"] as $comment) : ?>
         <tr>
-            <td><?= $mdfilter->parse($comment->data) ?></td>
+            <td><?= mb_substr($mdfilter->parse($comment->data), 0, 30)  . " ..." ?></td>
             <td><a href="<?= url($usr->getCommentUrl($comment, $di)) ?>">Kolla Inlägg</a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
-

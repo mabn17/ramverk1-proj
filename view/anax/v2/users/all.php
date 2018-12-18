@@ -22,7 +22,7 @@ $gravatar = new Gravatar;
                 <th scope="col">Användarnamn</th>
                 <th scope="col">email</th>
                 <th scope="col">Bild</th>
-                <th scope="col">Poäng</th>
+                <th scope="col">Ryckte</th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@ $gravatar = new Gravatar;
                 <td><a href="<?= url("users/user/" . $person->id) ?>"><?= $person->username ?></a></td>
                 <td><?= $person->email ?></td>
                 <td><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar"></td>
-                <td><?= $person->points ?></td>
+                <td>0</td>
             </tr>
         <?php endforeach; ?>
         </tbody>
