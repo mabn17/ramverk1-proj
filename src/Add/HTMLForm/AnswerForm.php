@@ -104,7 +104,9 @@ class AnswerForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("")->send();
+        $this->di->get("response")
+            ->redirect("post/post/{$this->di->get("request")->getGet('parentId')}")
+            ->send();
     }
 
 

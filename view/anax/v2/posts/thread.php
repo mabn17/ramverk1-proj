@@ -14,13 +14,28 @@ $mdfilter = new MdFilter;
 $displayedIds = [];
 $userIsCreator = ($admin->id == $mainUser->id) ? true : false;
 
-/* Svaren på en fråga kan sorteras och visas antingen enligt
-                        datum, eller rank (antalet röster). */
-// Lös detta med om ?sort=votes ->
-//     gör en array av dessa värden och sortera dem i controllern.
+?><script>
+function rateMe(action, type, id) {
+    $.ajax({
+        type: "GET",
+        url: "../../vote/" + action + "/" + type + "/" + id,
+        data: 'action=' + action + '&type=comment&id=' + id,
+        success: function() {
+            var myId = '#' + type + id;
+            var current = $(myId).text().split(" ")[1];
+            var val = (action == "like") ? 1 : -1;
+            $(myId).text("Poäng: " + (parseInt(current) + val));
+        }
+    });
+};
+</script>
 
-?><h1 class="mb-2"><?= $mainThread->title ?> <?= $postDb->isAnswerd($mainThread) ?></h1>
+<h1 class="mb-2"><?= $mainThread->title ?> <?= $postDb->isAnswerd($mainThread) ?></h1>
 <!-- Tags för main post -->
+<p>
+    Sortera efter <a href="<?= url("post/post/$mainThread->id?sorted=true") ?>">poäng</a> eller
+    <a href="<?= url("post/post/$mainThread->id") ?>">nyast sist</a>. 
+</p>
 <small>
     Taggar: 
     <?php $str = ""; foreach (explode(",", $mainThread->tagss) as $subTag) : ?>
@@ -47,6 +62,7 @@ Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl
         <small><?= $mdfilter->parse($comment->data) ?></small>
         <small>Av: <?= $mainCommentUsers->username ?></small>
         <small><?= $postDb->getLikes($comment->id, "comment", $di, url("")) ?></small>
+        <br>--------------------------------------------------------------------------
     <?php endforeach; ?>
 <?php } ?>
 
@@ -74,6 +90,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
                 <small><?= $mdfilter->parse($subC->data) ?></small>
                 <small>Av: <?= $commentUser->username ?></small>
                 <small><?= $postDb->getLikes($ans->id, "comment", $di, url("")) ?></small>
+                <br>-------------------------------------------------------------------------
             <?php endforeach; ?>
         <?php } ?>
     <?php endforeach; ?>

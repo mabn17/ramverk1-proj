@@ -296,7 +296,7 @@ class Post extends ActiveRecordModel
         );
         $points = (string) ($res->totalPoints != null) ? $res->totalPoints : "0";
 
-        return "<br> Poäng: {$points} <br> {$this->voteUrls($type, $id, $start)}";
+        return "<br> <span id='{$type}{$id}'>Poäng: {$points}</span> <br> {$this->voteUrls($type, $id, $start)}";
     }
 
     /**
@@ -311,10 +311,12 @@ class Post extends ActiveRecordModel
      */
     public function voteUrls($type, $id, $start)
     {
+        /* href='$like' */
+        /* href='$dislike'  */
         $like = "{$start}/vote/like/{$type}/{$id}";
         $dislike = "{$start}/vote/dislike/{$type}/{$id}";
-        $likeUrl = "<a href='$like' class='black'><b>+</b></a>";
-        $dislikeUrl = "<a href='$dislike' class='black'><b>-</b></a>";
+        $likeUrl = "<a class=\"like\" onClick=\"rateMe('like', '{$type}', {$id})\"><b>+</b></a>";
+        $dislikeUrl = "<a class=\"dislike\" onClick=\"rateMe('dislike', '{$type}', {$id})\"><b>-</b></a>";
 
         return " | $likeUrl | {$dislikeUrl} |";
     }
