@@ -51,7 +51,7 @@ $gravatar = new Gravatar;
     <tbody>
     <?php foreach ($data["comments"] as $comment) : ?>
         <tr>
-            <td><?= mb_substr($mdfilter->parse($comment->data), 0, 30)  . " ..." ?></td>
+            <td><?= mb_substr($mdfilter->parse($comment->data), 0, 30) . " ..." ?></td>
             <td><a href="<?= url($usr->getCommentUrl($comment, $di)) ?>">Kolla Inlägg</a></td>
         </tr>
     <?php endforeach; ?>
