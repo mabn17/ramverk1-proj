@@ -26,7 +26,7 @@ class VoteController implements ContainerInjectableInterface
         $userControll = new UserControll();
         $cUser = $userControll->hasLoggedInUser($this->di);
 
-        if (!$cUser || !$id) {
+        if (!$cUser || !$id || !is_numeric($id)) {
             return $this->di->get("response")->redirect("");
         }
 
@@ -35,7 +35,7 @@ class VoteController implements ContainerInjectableInterface
 
         $like->type = $type;
         $like->userId = $cUser->id;
-        $like->destinationId = $id;
+        $like->destinationId = (int) $id;
         $like->points = ($action == "like") ? 1 : -1;
 
         $like->save();
