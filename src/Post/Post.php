@@ -282,12 +282,12 @@ class Post extends ActiveRecordModel
      * @param string|integer $id  The post/comment Id.
      * @param string $type        The type (post or comment).
      * @param \Psr\Container\ContainerInterface $di a service container.
-     * @param string $start       The base url.
+     * @param boolean $getLinks   Set to true if you dont want the +/- urls.
      *
      * @return string  The total amount of likes/dislikes - defaults to 0
      *                                                      and two urls.
      */
-    public function getLikes($id, $type, $di, $start)
+    public function getLikes($id, $type, $di, $getLinks = false)
     {
         $db = $this->returnDb($di);
         $res = $db->executeFetch(
@@ -296,7 +296,11 @@ class Post extends ActiveRecordModel
         );
         $points = (string) ($res->totalPoints != null) ? $res->totalPoints : "0";
 
-        return "<br> <span id='{$type}{$id}'>Poäng: {$points}</span> <br> {$this->voteUrls($type, $id, $start)}";
+        if ($getLinks) {
+            return "<span id='{$type}{$id}'>Poäng: {$points}</span>";
+        }
+    
+        return "<br> <span id='{$type}{$id}'>Poäng: {$points}</span> <br> {$this->voteUrls($type, $id)}";
     }
 
     /**
@@ -309,12 +313,8 @@ class Post extends ActiveRecordModel
      *
      * @return string   urls for liking and dislikeing the post.
      */
-    public function voteUrls($type, $id, $start)
+    public function voteUrls($type, $id)
     {
-        /* href='$like' */
-        /* href='$dislike'  */
-        $like = "{$start}/vote/like/{$type}/{$id}";
-        $dislike = "{$start}/vote/dislike/{$type}/{$id}";
         $likeUrl = "<a class=\"like\" onClick=\"rateMe('like', '{$type}', {$id})\"><b>+</b></a>";
         $dislikeUrl = "<a class=\"dislike\" onClick=\"rateMe('dislike', '{$type}', {$id})\"><b>-</b></a>";
 

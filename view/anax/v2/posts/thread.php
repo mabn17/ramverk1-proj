@@ -50,7 +50,7 @@ function rateMe(action, type, id) {
 <div class="p-3"><?= $mdfilter->parse($mainThread->data) ?></div>
 <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
 <small>Inskickad <?= $mainThread->created ?> av <?= $mainUser->username ?></small>
-<small><?= $postDb->getLikes($mainThread->id, "post", $di, url("")) ?></small>
+<small><?= $postDb->getLikes($mainThread->id, "post", $di) ?></small>
 <?php $comments = $postDb->getAllComments($mainThread->id, $di) ?>
 
 <!-- Kommentarer för main post -->
@@ -61,7 +61,7 @@ Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl
         <?php $mainCommentUsers = $usr->getUserInfo("id", $comment->userId, $di) ?>
         <small><?= $mdfilter->parse($comment->data) ?></small>
         <small>Av: <?= $mainCommentUsers->username ?></small>
-        <small><?= $postDb->getLikes($comment->id, "comment", $di, url("")) ?></small>
+        <small><?= $postDb->getLikes($comment->id, "comment", $di) ?></small>
         <br>--------------------------------------------------------------------------
     <?php endforeach; ?>
 <?php } ?>
@@ -79,7 +79,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
 
             <!-- Sätter en länk som markerar svaret till "Accepterat" -->
             <br><small><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
-            <small><?= $postDb->getLikes($ans->id, "post", $di, url("")) ?></small>
+            <small><?= $postDb->getLikes($ans->id, "post", $di) ?></small>
 
             <!-- Kommentarer för sub post -->
             <h3>Kommentarer</h3>
@@ -89,7 +89,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
                 <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
                 <small><?= $mdfilter->parse($subC->data) ?></small>
                 <small>Av: <?= $commentUser->username ?></small>
-                <small><?= $postDb->getLikes($ans->id, "comment", $di, url("")) ?></small>
+                <small><?= $postDb->getLikes($ans->id, "comment", $di) ?></small>
                 <br>-------------------------------------------------------------------------
             <?php endforeach; ?>
         <?php } ?>
