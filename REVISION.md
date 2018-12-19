@@ -1,5 +1,10 @@
 # Revision history
 
+v0.7.0 (2018-12-19)
+-------------------
+* Added jQuery/Ajax so you can like comments and posts without reloading.
+* Fixed some redirects after adding answers and comments.
+
 v0.6.0 (2018-12-19)
 -------------------
 * Patched Spacing & a variable check in VoteController.
