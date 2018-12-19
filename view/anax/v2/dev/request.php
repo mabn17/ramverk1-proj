@@ -14,9 +14,7 @@ $request = $di->get("request");
 
 
 ?><h1>Request</h1>
-
 <p>Here are details on the current request.</p>
-
 <table>
     <tr>
         <th>Method</th>

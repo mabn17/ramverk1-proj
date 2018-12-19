@@ -21,7 +21,7 @@ class DevelopmentController implements ContainerInjectableInterface
      * @param array $args as a variadic to catch all arguments.
      *
      * @throws Anax\Route\Exception\NotFoundException when route is not found.
-
+     *
      * @return object as the response.
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

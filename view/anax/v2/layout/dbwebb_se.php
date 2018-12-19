@@ -48,35 +48,25 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
 ?><!doctype html>
 <html <?= classList($htmlClass) ?> lang="<?= $lang ?>">
 <head>
-
     <meta charset="<?= $charset ?>">
     <title><?= $title ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <?php if (isset($favicon)) : ?>
     <link rel="icon" href="<?= asset($favicon) ?>">
     <?php endif; ?>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <?php if (isset($stylesheets)) : ?>
         <?php foreach ($stylesheets as $stylesheet) : ?>
             <link rel="stylesheet" type="text/css" href="<?= asset($stylesheet) ?>">
         <?php endforeach; ?>
     <?php endif; ?>
-
     <?php if (isset($style)) : ?>
     <style><?= $style ?></style>
     <?php endif; ?>
-
 </head>
-
 <body <?= classList($bodyClass, $route) ?>>
-
 <!-- wrapper around all items on page -->
 <div class="wrap-all">
-
-
-
 <!-- siteheader with optional columns -->
 <?php if (regionHasContent("header") || regionHasContent("header-col-1")) : ?>
 <div class="outer-wrap outer-wrap-header b-g-c">
@@ -89,14 +79,12 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
                     <?php renderRegion("header") ?>
                 </div>
                 <?php endif; ?>
-
                 <!-- header-col-2 -->
                 <?php if (regionHasContent("header-col-2")) : ?>
                 <div class="">
                     <?php renderRegion("header-col-2") ?>
                 </div>
                 <?php endif; ?>
-
                 <!-- header-col-3 -->
                 <?php if (regionHasContent("header-col-3")) : ?>
                 <div class="region-header-col-3">
@@ -108,9 +96,6 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- navbar -->
 <?php if (regionHasContent("navbar")) : ?>
 <div class="outer-wrap outer-wrap-navbar">
@@ -123,12 +108,7 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <div class="py-4"></div>
-
-
 <!-- breadcrumb -->
 <?php if (regionHasContent("breadcrumb")) : ?>
 <div class="outer-wrap outer-wrap-breadcrumb py-2">
@@ -141,9 +121,6 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- flash message -->
 <?php if (regionHasContent("flash-message")) : ?>
 <div class="outer-wrap outer-wrap-flash-message">
@@ -156,9 +133,6 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- columns-above -->
 <?php if (regionHasContent("columns-above")) : ?>
 <div class="outer-wrap outer-wrap-columns-above">
@@ -171,14 +145,10 @@ $route = "route-" . str_replace("/", "-", $di->get("request")->getRoute());
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- main -->
 <div class="outer-wrap outer-wrap-main py-4">
     <div class="inner-wrap inner-wrap-main">
         <div class="row">
-
 <?php
 $sidebarLeft  = regionHasContent("sidebar-left");
 $sidebarRight = regionHasContent("sidebar-right");
@@ -187,31 +157,24 @@ $class .= $sidebarLeft  ? "has-sidebar-left "  : "";
 $class .= $sidebarRight ? "has-sidebar-right " : "";
 $class .= empty($class) ? "" : "has-sidebar";
 ?>
-
             <?php if ($sidebarLeft) : ?>
             <div class="wrap-sidebar region-sidebar-left <?= $class ?>" role="complementary">
                 <?php renderRegion("sidebar-left") ?>
             </div>
             <?php endif; ?>
-
             <?php if (regionHasContent("main")) : ?>
             <main class="region-main <?= $class ?>" role="main">
                 <?php renderRegion("main") ?>
             </main>
             <?php endif; ?>
-
             <?php if ($sidebarRight) : ?>
             <div class="wrap-sidebar region-sidebar-right <?= $class ?>" role="complementary">
                 <?php renderRegion("sidebar-right") ?>
             </div>
             <?php endif; ?>
-
         </div>
     </div>
 </div>
-
-
-
 <!-- after-main -->
 <?php if (regionHasContent("after-main")) : ?>
 <div class="outer-wrap outer-wrap-after-main">
@@ -224,9 +187,6 @@ $class .= empty($class) ? "" : "has-sidebar";
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- columns-below -->
 <?php if (regionHasContent("columns-below")) : ?>
 <div class="outer-wrap outer-wrap-columns-below">
@@ -239,9 +199,6 @@ $class .= empty($class) ? "" : "has-sidebar";
     </div>
 </div>
 <?php endif; ?>
-
-
-
 <!-- sitefooter -->
 <?php if (regionHasContent("footer")) : ?>
 <div class="outer-wrap outer-wrap-footer" role="contentinfo">
@@ -254,25 +211,16 @@ $class .= empty($class) ? "" : "has-sidebar";
     </div>
 </div>
 <?php endif; ?>
-
-
-
 </div> <!-- end of wrapper -->
-
-
-
 <!-- render javascripts -->
 <?php if (isset($javascripts)) : ?>
     <?php foreach ($javascripts as $javascript) : ?>
     <script async src="<?= asset($javascript) ?>"></script>
     <?php endforeach; ?>
 <?php endif; ?>
-
-
 <!-- useful for inline javascripts such as google analytics-->
 <?php if (regionHasContent("body-end")) : ?>
     <?php renderRegion("body-end") ?>
 <?php endif; ?>
-
 </body>
 </html>

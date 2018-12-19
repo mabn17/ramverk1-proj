@@ -16,10 +16,5 @@ $session->destroy();
 /* <pre><?= var_dump($session) ?></pre> */
 
 ?><h1>Session destroyed</h1>
-
 <p>The session is now destroyed.</p>
-
-
-<p>
-    <a href="<?= url($mount."session") ?>">Back to session<a>
-</p>
+<p><a href="<?= url($mount."session") ?>">Back to session<a></p>

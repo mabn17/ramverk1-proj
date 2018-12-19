@@ -6,7 +6,6 @@
 return [
     // Path where to mount the routes, is added to each route path.
     "mount" => "example",
-
     // All routes in order
     "routes" => [
         [

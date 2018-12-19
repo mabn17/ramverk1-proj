@@ -15,9 +15,7 @@ $activeServices = $di->getActiveServices();
 
 
 ?><h1>DI and services</h1>
-
 <p>These services are loaded into $di, bold services are activated.
-
 <ul>
 <?php foreach ($services as $service) :
     $active = in_array($service, $activeServices); ?>

@@ -10,10 +10,7 @@ namespace Anax\View;
 //echo showEnvironment(get_defined_vars(), get_defined_functions());
 
 $items = $navbarConfig["items"] ?? [];
-
 $classes = "navbar justify-content-center " . ($navbarConfig["class"] ?? null);
-
-
 
 ?><navbar <?= classList($classes) ?>>
 <?php foreach ($items as $item) : ?>

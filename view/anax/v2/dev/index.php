@@ -12,9 +12,7 @@ namespace Anax\View;
 $mount = $mount ?? null; // Where are the routes mounted
 
 ?><h1>Anax development utilities</h1>
-
 <p>Here is a set of utilities to use when learning, developing, testing and debugging Anax.</p>
-
 <ul>
     <li><a href="<?= url($mount."di") ?>">DI (show loaded services in $di)</a></li>
     <li><a href="<?= url($mount."request") ?>">Request (show details on current request)</a></li>

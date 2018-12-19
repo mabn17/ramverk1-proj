@@ -2,6 +2,7 @@
 
 v0.6.0 (2018-12-19)
 -------------------
+* Patched Spacing & a variable check in VoteController.
 * Added a reputation system.
 
 v0.5.4 (2018-12-17)

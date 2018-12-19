@@ -12,9 +12,7 @@ namespace Anax\View;
 $navbar = new \Anax\Navigation\Navbar();
 $navbar->setDI($di);
 $html = $navbar->createMenuWithSubMenus($navbarConfig);
-
 $classes = "rm-navbar-max rm-navbar rm-max rm-swipe-right " . ( $class ?? null);
-
 
 ?><!-- menu wrapper -->
 <div <?= classList($classes) ?>>
@@ -27,7 +25,6 @@ $classes = "rm-navbar-max rm-navbar rm-max rm-swipe-right " . ( $class ?? null);
             </a></li>
         </ul>
     </div>
-
     <!-- main menu -->
     <?= $html ?>
 </div>

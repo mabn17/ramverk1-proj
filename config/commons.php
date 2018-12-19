@@ -9,14 +9,10 @@
 define("ANAX_DEVELOPMENT", true);
 //define("ANAX_PRODUCTION", true);
 
-
-
 /**
  * Set true or false to activate session by default.
  */
 define("ANAX_WITH_SESSION", true);
-
-
 
 /**
  * Set the error reporting.
@@ -30,8 +26,6 @@ if (constant("ANAX_DEVELOPMENT")) {
     ini_set("log_errors", 1);      // Log errors to file error_log
     ini_set("error_log", ANAX_INSTALL_PATH . "/log/error_log");
 }
-
-
 
 /**
  * Default exception handler.

@@ -14,9 +14,7 @@ $router = $di->get("router");
 
 
 ?><h1>Router</h1>
-
 <p>The following routes are loaded:</p>
-
 <table>
     <tr><th>Path</th><th>Method</th><th>Handler type</th><th>Description</th></tr>
 <?php foreach ($router->getAll() as $route) : ?>
@@ -28,9 +26,7 @@ $router = $di->get("router");
     </tr>
 <?php endforeach; ?>
 </table>
-
 <p>The following internal routes are loaded:</p>
-
 <table>
     <tr><th>Path</th><th>Handler type</th><th>Description</th></tr>
 <?php foreach ($router->getInternal() as $route) : ?>

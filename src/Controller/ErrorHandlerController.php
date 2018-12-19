@@ -22,7 +22,7 @@ class ErrorHandlerController implements ContainerInjectableInterface
      * @param string $message with details.
      *
      * @throws Anax\Route\Exception\NotFoundException
-
+     *
      * @return object as the response.
      */
     public function catchAll() : object
