@@ -82,10 +82,11 @@ class ApiController implements ContainerInjectableInterface
         $user->setDb($this->di->get("dbqb"));
         $givenUser = $user->getUserInfo($unam, MD5($pass), $this->di, true);
 
-        $checkOne = in_array($type, ["post", "comment"]);
-        $checkTwo = in_array($acti, ["like", "dislike"]);
+        $isValid = in_array($type, ["post", "comment"]) &&
+            in_array($acti, ["like", "dislike"]) &&
+            is_numeric($id);
 
-        if (!$givenUser || !$checkOne || !$checkTwo || !is_numeric($id)) {
+        if (!$givenUser || !$isValid) {
             return [
                 [ "error" => "Invalid arguments"]
             ];
@@ -96,8 +97,6 @@ class ApiController implements ContainerInjectableInterface
         $likeDb->setDb($this->di->get("dbqb"));
         $request = $this->di->get("request");
         $methods = $request->getGet('methods');
-        // Add check on methods later.
-
         $likeDb->type = $type;
         $likeDb->destinationId = $id;
         $likeDb->points = ($acti === 'dislike') ? -1 : 1;
