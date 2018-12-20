@@ -2,6 +2,8 @@
 
 v0.8.0 (2018-12-20)
 -------------------
+* Updated bugs in comments.
+* Updated jQuery/Ajax so it uses the api.
 * Added a REST API for the voting system.
     * Has documentation.
     * Can "like" and "dislike".
