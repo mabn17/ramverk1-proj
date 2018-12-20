@@ -72,7 +72,7 @@ class ApiController implements ContainerInjectableInterface
      * @param string|integer $pass  The password.
      * @param string $acti Do you want to like/dislike?
      * @param string $type  If its a comment or a post.
-     * @param string|integer The id of the post/comment.
+     * @param string|integer $id The id of the post/comment.
      *
      * @return array    An array in JSON format with the requested information.
      */
