@@ -6,7 +6,7 @@ use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 use Anax\Vote\Like;
 use Anax\Index\User;
-use Anas\UserControll\UserControll;
+use Anax\UserControll\UserControll;
 
 /**
  * Handles the api.
@@ -84,7 +84,7 @@ class ApiController implements ContainerInjectableInterface
         $user->setDb($this->di->get("dbqb"));
         $givenUser = $user->getUserInfo($unam, MD5($pass), $this->di, true);
 
-        if ($userControll->isValid($givenUser, $type, $acti, $id)) {
+        if ($userControll->isValid($givenUser, $type, $acti, $id) == "unvalid") {
             return [
                 [ "error" => "Invalid arguments"]
             ];
