@@ -69,7 +69,7 @@ class ApiController implements ContainerInjectableInterface
      * Handles voting on posts and comments thought api.
      *
      * @param string $unam The username.
-     * @param string $pass  The password.
+     * @param string|integer $pass  The password.
      * @param string $acti Do you want to like/dislike?
      * @param string $type  If its a comment or a post.
      * @param string|integer The id of the post/comment.
@@ -102,15 +102,7 @@ class ApiController implements ContainerInjectableInterface
         $likeDb->destinationId = $id;
         $likeDb->points = ($acti === 'dislike') ? -1 : 1;
         $likeDb->userId = $givenUser->id;
-
-        try {
-            $likeDb->save();
-        } catch (Exception $e) {
-            throw $e;
-            return [
-                ["error" => "Requesten kunde inte sparas i databasen"]
-            ];
-        }
+        $likeDb->save();
 
         if ($methods == 'both') {
             return $this->getAction($type, $id);

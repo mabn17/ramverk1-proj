@@ -23,7 +23,7 @@ namespace Anax\View;
     <h3>Hämta</h3>
     <div class="row d-flex">
         <div class="col">
-            <a href="<?= /** @scrutinizer ignore-call */ url("api/get/post/1") ?>">Exepmel</a> när man hämtar poäng för post nummer 1.
+            <a href="<?= url("api/get/post/1") ?>">Exepmel</a> när man hämtar poäng för post nummer 1.
         </div>
     </div>
     <div class="d-flex">
@@ -33,19 +33,13 @@ namespace Anax\View;
     <!-- row -->
     <div class="row d-flex">
         <div class="col">
-            <a href="<?= /** @scrutinizer ignore-call */ url("api/vote/doe/doe/like/post/1?methods=both") ?>">Exepmel</a> like på post nummer 1.
+            <a href="<?= url("api/vote/doe/doe/like/post/1?methods=both") ?>">Exepmel</a> like på post nummer 1.
         </div>
         <div class="col">
-            <a href="<?= /** @scrutinizer ignore-call */ url("api/get/") ?>">Exepmel</a> på ett felmedelande.
+            <a href="<?= url("api/get/") ?>">Exepmel</a> på ett felmedelande.
         </div>
     </div>
-
-
-
-
-
     <!--  Documentation  -->
-
     <h2>Request Parametrar</h2>
     <p>För att hämta poäng:</p>
     <ol class="noDec pb-4">
@@ -71,7 +65,6 @@ namespace Anax\View;
         <li><b>Methods </b><small class="text-secondary">optionell,</small><small> <ul><li>both</li></ul></small></li>
     </ol>
     Optionella parametrar läggs till som en <a href="https://en.wikipedia.org/wiki/Query_string">query</a> mot slutet av strängen, ex. <code>/.../[id]?methods=both</code></i></small>
-
     <h2>API</h2>
     <h3>Användning</h3>
     <small>Alla felmedelanded returnerar <code>[ error: message ]</code></small>
@@ -90,82 +83,8 @@ namespace Anax\View;
     <p>För att hämta resultat för den <b>första frågan</b>.</p>
     <pre class="hljs text-left"><span class="hljs-keyword">GET</span> /api/get/[type]/[id]<br><b>GET</b> /api/get/post/1</pre>
     <i>Resultat</i>
-
     <pre class="hljs text-left">[
     status: "done"
-    <span class="hljs-comment">Man får samma respons om man ändas röstar</span>
+    <span class="hljs-comment">Man får samma respons om man bara röstar</span>
 ]</pre>
 </div>
-
-
-
-<!-- <pre class="hljs text-left">[
-    current: [
-        latitude: 56.1621073,
-        longitude: 15.5866422,
-        timezone: "Europe/Stockholm",
-        daily: [
-            summary: "Ingen mätbar nederbörd u…ill 5°C under onsdagen.",
-            icon: "clear-day",
-            0: [
-                time: 1542409200,
-                summary: "Molnigt under dagen.",
-                icon: "partly-cloudy-day",
-                sunriseTime: 1542436832,
-                sunsetTime: 1542466053,
-                moonPhase: 0.31,
-                precipIntensity: 0,
-                precipIntensityMax: 0.0025,
-                precipIntensityMaxTime: 1542423600,
-                precipProbability: 0,
-                temperatureHigh: 5.44,
-                temperatureHighTime: 1542434400,
-                temperatureLow: 2.93,
-                temperatureLowTime: 1542492000,
-                apparentTemperatureHigh: 5.44,
-                apparentTemperatureHighTime: 1542434400,
-                apparentTemperatureLow: -0.22,
-                apparentTemperatureLowTime: 1542495600,
-                dewPoint: 3.03,
-                humidity: 0.87,
-                pressure: 1040.8,
-                windSpeed: 1.16,
-                windGust: 5.56,
-                windGustTime: 1542492000
-                windBearing: 295,
-                cloudCover: 0.74,
-                uvIndex: 0,
-                uvIndexTime: 1542409200,
-                visibility: 14.4,
-                ozone: 280.04,
-                temperatureMin: 2.93,
-                temperatureMinTime: 1542492000,
-                temperatureMax: 6.44,
-                temperatureMaxTime: 1542409200,
-                apparentTemperatureMin: -0.19,
-                apparentTemperatureMinTime: 1542492000,
-                apparentTemperatureMax: 5.44,
-                apparentTemperatureMaxTime: 1542430800
-            ],
-            ...
-            7: [
-                <span class="hljs-comment">Samma innehåll som ["daily"][0]</span>
-            ]
-        ],
-        offset: 1
-    ],
-    previous: [
-        0: [
-            0: [
-                <span class="hljs-comment">Samma som current["daily"]</span>
-                <span class="hljs-comment">Denna arrayen kommer inte att synas om days = 0</span>
-            ]
-        ]
-        1: [
-            0: [
-                ....
-            ]
-        ]
-        ...
-    ]
-]</pre> -->

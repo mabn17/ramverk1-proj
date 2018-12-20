@@ -21,11 +21,17 @@ function rateMe(action, type, id) {
         url: "../../vote/" + action + "/" + type + "/" + id,
         data: 'action=' + action + '&type=comment&id=' + id,
         success: function() {
-            var myId = '#' + type + id;
-            var current = $(myId).text().split(" ")[1];
-            var val = (action == "like") ? 1 : -1;
-
-            $(myId).text("Poäng: " + (parseInt(current) + val));
+            $.ajax({
+                type: "GET",
+                url: "../../api/get/" + type + "/" + id,
+                data: 'type=' + type + "&id=" + id,
+                success: function(response) {
+                    var newPoints = response["points"];
+                    var myId = '#' + type + id;
+                    
+                    $(myId).text("Poäng: " + newPoints);
+                }
+            });
         }
     });
 };
