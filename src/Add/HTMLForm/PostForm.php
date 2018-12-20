@@ -127,7 +127,6 @@ class PostForm extends FormModel
     }
 
 
-
     /**
      * Callback what to do if the form was successfully submitted, this
      * happen when the submit callback method returns true. This method
@@ -135,13 +134,8 @@ class PostForm extends FormModel
      */
     public function callbackSuccess()
     {
-        /* $this->form->rememberValues();
-        $this->form->addOutput("Något gick fel.");
-        print_r($this->form->value("tags")); */
-
         $this->di->get("response")->redirect("post")->send();
     }
-
 
 
     // /**

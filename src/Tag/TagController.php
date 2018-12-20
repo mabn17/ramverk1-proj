@@ -84,6 +84,7 @@ class TagController implements ContainerInjectableInterface
                 "data" => $postWithThisTag,
                 "tagName" => $tagName,
                 "usr" => $user,
+                "postDb" => $postDb,
             ]
         );
 

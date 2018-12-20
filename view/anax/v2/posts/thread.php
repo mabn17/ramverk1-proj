@@ -24,6 +24,7 @@ function rateMe(action, type, id) {
             var myId = '#' + type + id;
             var current = $(myId).text().split(" ")[1];
             var val = (action == "like") ? 1 : -1;
+
             $(myId).text("Poäng: " + (parseInt(current) + val));
         }
     });
@@ -49,7 +50,7 @@ function rateMe(action, type, id) {
 <!-- Innehåll för main post -->
 <div class="p-3"><?= $mdfilter->parse($mainThread->data) ?></div>
 <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
-<small>Inskickad <?= $mainThread->created ?> av <?= $mainUser->username ?></small>
+<small>Inskickad <?= $mainThread->created ?> av <a href="<?= url("users/user/{$mainUser->id}")?>"><?= $mainUser->username ?></a></small>
 <small><?= $postDb->getLikes($mainThread->id, "post", $di) ?></small>
 <?php $comments = $postDb->getAllComments($mainThread->id, $di) ?>
 
@@ -60,7 +61,7 @@ Lägg till kommentar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl
     <?php foreach ($postDb->getAllComments($mainThread->id, $di) as $comment) : ?>
         <?php $mainCommentUsers = $usr->getUserInfo("id", $comment->userId, $di) ?>
         <small><?= $mdfilter->parse($comment->data) ?></small>
-        <small>Av: <?= $mainCommentUsers->username ?></small>
+        <small>Av: <a href="<?= url("users/user/{$mainCommentUsers->id}")?>"><?= $mainCommentUsers->username ?></a></small>
         <small><?= $postDb->getLikes($comment->id, "comment", $di) ?></small>
         <br>--------------------------------------------------------------------------
     <?php endforeach; ?>
@@ -75,7 +76,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <?php $displayedIds[] = $ans->id ?>
             <div class="p-3"><?= $mdfilter->parse($ans->data) ?></div>
             <img src="<?= $gravatar->getGravatar($ans->email) ?>" alt="Gravatar" class="img-fluid img-thumbnail p-2 mb-3">
-            <small>Inskickad <?= $ans->created ?> av <?= $ans->username ?></small><br><?= $postDb->isAnswerd($ans, 1) ?>
+            <small>Inskickad <?= $ans->created ?> av <a href="<?= url("users/user/{$ans->userId}")?>"><?= $ans->username ?></a></small><br><?= $postDb->isAnswerd($ans, 1) ?>
 
             <!-- Sätter en länk som markerar svaret till "Accepterat" -->
             <br><small><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
@@ -88,7 +89,7 @@ Svara <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->i
             <?php foreach ($subComments as $subC) : ?>
                 <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
                 <small><?= $mdfilter->parse($subC->data) ?></small>
-                <small>Av: <?= $commentUser->username ?></small>
+                <small>Av: <a href="<?= url("users/user/{$commentUser->id}")?>"><?= $commentUser->username ?></a></small>
                 <small><?= $postDb->getLikes($ans->id, "comment", $di) ?></small>
                 <br>-------------------------------------------------------------------------
             <?php endforeach; ?>

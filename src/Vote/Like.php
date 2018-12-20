@@ -30,4 +30,18 @@ class Like extends ActiveRecordModel
     public $userId;
     public $destinationId;
     public $points;
+
+    public function findNrOfLikes($type, $id, $di)
+    {
+        $db = $di->get("db");
+        $db->connect();
+
+        $res = $db->executeFetch(
+            "SELECT SUM(points) AS 'total' FROM Likes WHERE type = ? AND destinationId = ?",
+            [$type, $id]
+        );
+
+        $points = ($res->total != null) ? $res->total : 0;
+        return $points;
+    }
 }

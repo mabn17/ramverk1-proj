@@ -34,16 +34,25 @@ class User extends ActiveRecordModel
     /**
      * Returns the user
      *
-     * @param string $quer      The matching search param
-     * @param integer $id       The user identification
-     * @param \Psr\Container\ContainerInterface $di a service container
+     * @param string $quer      The matching search param.
+     * @param integer $id       The user identification.
+     * @param \Psr\Container\ContainerInterface $di a service container.
+     * @param boolean $multi    If you want to "login".
      *
      * @return object|null  $res The user
      */
-    public function getUserInfo($quer, $id, $di)
+    public function getUserInfo($quer, $id, $di, $multi = false)
     {
         $db = $this->returnDb($di);
-        $res = $db->executeFetch("SELECT * FROM Users WHERE $quer = ?", [$id]);
+        if (!$multi) {
+            $res = $db->executeFetch("SELECT * FROM Users WHERE $quer = ?", [$id]);
+            return $res;
+        }
+
+        $res = $db->executeFetch(
+            "SELECT * FROM Users WHERE username = ? AND password = ?",
+            [$quer, $id]
+        );
 
         return $res;
     }

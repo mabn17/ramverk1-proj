@@ -1,5 +1,12 @@
 # Revision history
 
+v0.8.0 (2018-12-20)
+-------------------
+* Added a REST API for the voting system.
+    * Has documentation.
+    * Can "like" and "dislike".
+    * Can get and return the current points for the post.
+
 v0.7.0 (2018-12-19)
 -------------------
 * Added jQuery/Ajax so you can like comments and posts without reloading.

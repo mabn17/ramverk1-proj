@@ -38,6 +38,11 @@ return [
             "text" => "Inlägg",
             "url" => "post",
             "title" => "inlägg",
+        ],
+        [
+            "text" => "API",
+            "url" => "api",
+            "title" => "Api"
         ]
     ],
 ];
