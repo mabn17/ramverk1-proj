@@ -37,4 +37,22 @@ class UserControll
         }
         return false;
     }
+
+    /**
+     * Takes a list of arguments for the API.
+     *
+     * @param array $args The list with arugments.
+     *
+     * @return string "valid" || "unvalid".
+     */
+    public function isValid($usr, $type, $action, $id)
+    {
+        $checkOne = in_array($type, ["post", "comment"]);
+        $checkTwo = in_array($action, ["like", "dislike"]);
+        if (!$usr || !$checkOne || $checkTwo || !is_numeric($id)) {
+            return "unvalid";
+        }
+
+        return "valid";
+    }
 }
