@@ -63,6 +63,23 @@ class Post extends ActiveRecordModel
     }
 
     /**
+     * Returns all the tags in named format.
+     *
+     * @param integer|string $id    The post id
+     * @param \Psr\Container\ContainerInterface $di A service container.
+     */
+    public function getTagsForPost($id, $di)
+    {
+        $db = $this->returnDb($di);
+        $res = $db->executeFetch(
+            "SELECT * FROM HeadCommentAndTags WHERE id = ?",
+            [$id]
+        )->tagss ?? 'Other';
+
+        return $res;
+    }
+
+    /**
      * Translates The Tag name to id, also prepares the array for the PostForm.
      *
      * @param integer|string $id    The tag id.
@@ -300,7 +317,7 @@ class Post extends ActiveRecordModel
             return "<span id='{$type}{$id}'>Poäng: {$points}</span>";
         }
     
-        return "<br> <span id='{$type}{$id}'>Poäng: {$points}</span> <br> {$this->voteUrls($type, $id)}";
+        return "<span id='{$type}{$id}'>Poäng: {$points}</span> {$this->voteUrls($type, $id)}";
     }
 
     /**
@@ -319,5 +336,30 @@ class Post extends ActiveRecordModel
         $dislikeUrl = "<a class=\"dislike\" onClick=\"rateMe('dislike', '{$type}', {$id})\"><b>-</b></a>";
 
         return " | $likeUrl | {$dislikeUrl} |";
+    }
+
+    /**
+     * Takes a datetime string and converts it do days/minues and so on ago.
+     *
+     * @param string $time  The datetime (SQL time)
+     *
+     * @return string Posted x ago.
+     */
+    public function translateDate($time) : string
+    {
+        $secAgo = (time() - strtotime($time));
+        $output = "Posted less than a minute ago";
+        if ($secAgo >= 31536000) {
+            $output = "Posted " . intval($secAgo / 31536000) . " years ago";
+        } elseif ($secAgo >= 2419200) {
+            $output = "Posted " . intval($secAgo / 2419200) . " months ago";
+        } elseif ($secAgo >= 86400) {
+            $output = "Posted " . intval($secAgo / 86400) . " days ago";
+        } elseif ($secAgo >= 3600) {
+            $output = "Posted " . intval($secAgo / 3600) . " hours ago";
+        } elseif ($secAgo >= 60) {
+            $output = "Posted " . intval($secAgo / 60) . " minutes ago";
+        }
+        return $output;
     }
 }

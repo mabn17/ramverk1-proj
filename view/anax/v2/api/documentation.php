@@ -67,24 +67,22 @@ namespace Anax\View;
     Optionella parametrar läggs till som en <a href="https://en.wikipedia.org/wiki/Query_string">query</a> mot slutet av strängen, ex. <code>/.../[id]?methods=both</code></i></small>
     <h2>API</h2>
     <h3>Användning</h3>
-    <small>Alla felmedelanded returnerar <code>[ error: message ]</code></small>
+    <small>Alla felmedelanded returnerar: <code class="ml-3">{ error: "message" }</code></small>
     <hr class="clearfix">
     <h4>GET</h4>
-    <p>För att rösta (och hämta resultat för den) <b>första frågan</b>.</p>
-    <pre class="hljs text-left"><span class="hljs-keyword">GET</span> /api/vote/[username]/[password]/[action]/[type]/[id]?[optional]<br><b>GET</b> /api/vote/doe/doe/like/post/1?methods=both</pre>
+    <p>För att rösta på <b>första frågan</b>.</p>
+    <pre class="hljs text-left"><span class="hljs-keyword">GET</span> /api/vote/[username]/[password]/[action]/[type]/[id]?[optional]<br><b>GET</b> /api/vote/doe/doe/like/post/1</pre>
     <i>Resultat</i>
-    <pre class="hljs text-left">[
-    points: 5
-    <span class="hljs-comment">Returnerar i form av en <i>Integer</i></span>
-]
+    <pre class="hljs text-left">{
+    status: "ok"
+}
 </pre>
     <hr class="clearfix">
     <h4>GET</h4>
     <p>För att hämta resultat för den <b>första frågan</b>.</p>
     <pre class="hljs text-left"><span class="hljs-keyword">GET</span> /api/get/[type]/[id]<br><b>GET</b> /api/get/post/1</pre>
     <i>Resultat</i>
-    <pre class="hljs text-left">[
-    status: "done"
-    <span class="hljs-comment">Man får samma respons om man bara röstar</span>
-]</pre>
+    <pre class="hljs text-left">{
+    points: "5"
+}</pre>
 </div>

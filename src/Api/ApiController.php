@@ -60,7 +60,7 @@ class ApiController implements ContainerInjectableInterface
         $points = $like->findNrOfLikes($type, $id, $this->di);
 
         return [
-            [ 
+            [
                 "points" => $points
             ]
         ];
@@ -77,7 +77,7 @@ class ApiController implements ContainerInjectableInterface
      *
      * @return array    An array in JSON format with the requested information.
      */
-    public function voteAction($unam = "", $pass = "", $acti = "", $type = "", $id) : array
+    public function voteAction($unam = "", $pass = "", $acti = "", $type = "", $id = 0) : array
     {
         $user = new User;
         $userControll = new UserControll;
@@ -106,7 +106,7 @@ class ApiController implements ContainerInjectableInterface
         }
 
         return [
-            [ "status" => "done" ]
+            [ "status" => "ok" ]
         ];
     }
 }

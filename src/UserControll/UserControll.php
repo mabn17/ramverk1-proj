@@ -49,7 +49,7 @@ class UserControll
     {
         $checkOne = in_array($type, ["post", "comment"]);
         $checkTwo = in_array($action, ["like", "dislike"]);
-        if (!$usr || !$checkOne || $checkTwo || !is_numeric($id)) {
+        if (!$usr || !$checkOne || !$checkTwo || !is_numeric($id)) {
             return "unvalid";
         }
 

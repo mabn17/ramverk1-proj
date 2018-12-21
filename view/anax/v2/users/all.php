@@ -19,18 +19,18 @@ $gravatar = new Gravatar;
     <table class="table">
         <thead class="thead-light">
             <tr>
+                <th scope="col">Bild</th>
                 <th scope="col">Användarnamn</th>
                 <th scope="col">email</th>
-                <th scope="col">Bild</th>
                 <th scope="col">Ryckte</th>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($users as $person) : ?>
             <tr>
+                <td><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar"></td>
                 <td><a href="<?= url("users/user/" . $person->id) ?>"><?= $person->username ?></a></td>
                 <td><?= $person->email ?></td>
-                <td><img src="<?= $gravatar->getGravatar($person->email) ?>" alt="Gravatar"></td>
                 <td><?= $usr->calcUserPoints($person->id, $di) ?></td>
             </tr>
         <?php endforeach; ?>

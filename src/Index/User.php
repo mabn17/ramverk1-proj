@@ -136,11 +136,11 @@ class User extends ActiveRecordModel
         $comments = $db->executeFetch(
             "SELECT * FROM userLikesForComments WHERE userId = ?",
             [$id]
-        )->totalPoints;
+        )->totalPoints ?? 0;
         $posts = $db->executeFetch(
             "SELECT * FROM userLikesForPosts WHERE userId = ?",
             [$id]
-        )->totalPoints;
+        )->totalPoints ?? 0;
 
         $totalPoints =
             ($info->questionsMade * $values["question"]) +

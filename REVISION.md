@@ -1,5 +1,10 @@
 # Revision history
 
+v.9.0 (2018-12-21)
+-------------------
+* Added a bit of style.
+* Changed layout.
+
 v0.8.0 (2018-12-20)
 -------------------
 * Updated bugs in comments.

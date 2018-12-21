@@ -40,10 +40,11 @@ class HomeController implements ContainerInjectableInterface
         $page->add(
             $viewName,
             [
-                "mostActiveUsers" => $user->mostActiveUsers($this->di),
+                "mostActiveUsers" => array_slice($user->mostActiveUsers($this->di), 0, 3),
                 "latestQuestions" => $postDb->getLatestPosts($this->di, 2),
                 "popularTags" => $postDb->findTags($this->di, 3),
                 "usr" => $user,
+                "postDb" => $postDb
             ]
         );
 
