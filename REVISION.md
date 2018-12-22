@@ -1,6 +1,12 @@
 # Revision history
 
-v.9.0 (2018-12-21)
+v1.0.0 (2018-12-22)
+-------------------
+* Updated redirects after creating new posts and comments.
+* Finnished style.
+* Cleaned some files.
+
+v0.9.0 (2018-12-21)
 -------------------
 * Added a bit of style.
 * Changed layout.

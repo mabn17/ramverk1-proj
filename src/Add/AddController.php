@@ -33,16 +33,14 @@ class AddController implements ContainerInjectableInterface
         $parentId = $request->getGet('parentId');
         $type = $request->getGet('type');
 
-        if ($currUser == null || !is_numeric($parentId)) {
+        if ($currUser == null) {
             return $this->di->get("response")->redirect("post");
         }
-
-        $parentId = (int) $parentId;
         
         $form = new CommentForm($this->di);
         if ($type == "answer") {
             $form = new AnswerForm($this->di);
-        } else if ($type == "post") {
+        } elseif ($type == "post") {
             $form = new PostForm($this->di);
         }
         $form->check();
