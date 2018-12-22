@@ -89,7 +89,14 @@ class CommentForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("")->send();
+        $db = $this->di->get('db');
+        $db->connect();
+        $id = $this->form->value("postId");
+
+        $res = $db->executeFetch("SELECT * FROM Posts WHERE id = ?", [$id]);
+        $redirectId = $res->parent ?? $res->id;
+
+        $this->di->get("response")->redirect("post/post/{$redirectId}")->send();
     }
 
 

@@ -14,4 +14,3 @@ namespace Anax\View;
 ?><h1>Registrera ett nytt konto</h1>
 
 <?= $form ?>
-

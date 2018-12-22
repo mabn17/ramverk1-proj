@@ -134,7 +134,15 @@ class PostForm extends FormModel
      */
     public function callbackSuccess()
     {
-        $this->di->get("response")->redirect("post")->send();
+        $title = $this->form->value("title");
+        $created = $this->form->value("created");
+        $db = $this->di->get('db');
+        $db->connect();
+        $res = $db->executeFetch(
+            "SELECT id FROM Posts WHERE title = ? AND created = ?",
+            [$title, $created]
+        )->id;
+        $this->di->get("response")->redirect("post/post/{$res}")->send();
     }
 
 

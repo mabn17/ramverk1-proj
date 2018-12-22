@@ -38,32 +38,37 @@ function rateMe(action, type, id) {
 </script>
 
 <h1 class="mb-2"><?= $mainThread->title ?> <?= $postDb->isAnswerd($mainThread) ?></h1>
-<!-- Tags för main post -->
-<p>
+<small class="float-right">
+    <i class="fa fa-tags"></i> Taggar:
+    <?php foreach (explode(",", $mainThread->tagss) as $subTag) : ?>
+        <a href="<?= url($postDb->getTagUrl($subTag, 1, $di)) ?>" class="no-dec">
+            <span class="badge badge-info"><?= $subTag ?></span>
+        </a>
+    <?php endforeach; ?>
+</small>
+<span class="float-left">
     Sortera svar efter <a href="<?= url("post/post/$mainThread->id?sorted=true") ?>">poäng</a> eller
     <a href="<?= url("post/post/$mainThread->id") ?>">nyast sist</a>. 
-</p>
-<small>
-    Taggar: 
-    <?php $str = ""; foreach (explode(",", $mainThread->tagss) as $subTag) : ?>
-        <?php $tagUrl = $postDb->getTagUrl($subTag, 1, $di) ?>
-        <?php $subTag = "<a href=" . url($tagUrl) . ">$subTag</a>, "?>
-        <?php $str .= $subTag ?>
-    <?php endforeach; ?>
-    <?= $str ?>
-</small>
-
+</span>
+<div class="clearfix pb-3"></div>
 <div class="container">
     <div class="row">
         <div class="media comment-box mb-4">
             <div class="media-left">
                 <a href="<?= url("users/user/{$mainUser->id}")?>">
-                    <img src="<?= $gravatar->getGravatar($mainUser->email) ?>" alt="Gravatar" class="img-responsive img-rounded user-photo">
+                    <img src="<?= $gravatar->getGravatar($mainUser->email) ?>"
+                        alt="Gravatar" class="img-responsive img-rounded user-photo"
+                    >
                 </a>
             </div>
             <div class="media-body">
                 <small class="mini"><i><?= $postDb->translateDate($mainThread->created) ?></i></small>
-                <h4 class="media-heading">Fråga: <?= $mainUser->username ?><small class="float-right"><?= $postDb->getLikes($mainThread->id, "post", $di) ?></small></h4>
+                <h4 class="media-heading">
+                    Fråga: <?= $mainUser->username ?>
+                    <small class="float-right">
+                        <?= $postDb->getLikes($mainThread->id, "post", $di) ?>
+                    </small>
+                </h4>
                 <?= $mdfilter->parse($mainThread->data) ?>
                 <?php $comments = $postDb->getAllComments($mainThread->id, $di) ?>
                 <?php if ($comments != null) { ?>
@@ -72,12 +77,19 @@ function rateMe(action, type, id) {
                         <div class="media">
                             <div class="media-left">
                                 <a href="<?= url("users/user/{$mainCommentUsers->id}")?>">
-                                    <img src="<?= $gravatar->getGravatar($mainCommentUsers->email) ?>" alt="Gravatar" class="img-responsive img-rounded user-photo">
+                                    <img src="<?= $gravatar->getGravatar($mainCommentUsers->email) ?>"
+                                        alt="Gravatar" class="img-responsive img-rounded user-photo"
+                                    >
                                 </a>
                             </div>
                             <div class="media-body">
                                 <small class="mini"><i><?= $postDb->translateDate($comment->created) ?></i></small>
-                                <h4 class="media-heading"><?= $mainCommentUsers->username ?><small class="float-right"><?= $postDb->getLikes($comment->id, "comment", $di) ?></small></h4>
+                                <h4 class="media-heading">
+                                    <?= $mainCommentUsers->username ?>
+                                    <small class="float-right">
+                                        <?= $postDb->getLikes($comment->id, "comment", $di) ?>
+                                    </small>
+                                </h4>
                                 <?= $mdfilter->parse($comment->data) ?>
                             </div>
                         </div>
@@ -85,12 +97,15 @@ function rateMe(action, type, id) {
                 <?php } ?>
             </div>
         </div>
-        <small style="margin-bottom:50px!important">Kommentera <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "comment"))) ?></small>
+        <small style="margin-bottom:50px!important">
+            Kommentera <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "comment"))) ?>
+        </small>
     </div>
 </div>
-
 <h2>Svar</h2>
-<small>Lägg till ett svar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "answer"))) ?></small>
+<small>
+    Lägg till ett svar <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($mainThread->id, "answer"))) ?>
+</small>
 <div class="container">
     <div class="row">
     <?php if ($answers != null) { ?>
@@ -100,34 +115,54 @@ function rateMe(action, type, id) {
                 <div class="media comment-box mb-4">
                 <div class="media-left">
                     <a href="<?= url("users/user/{$ans->userId}")?>">
-                        <img src="<?= $gravatar->getGravatar($ans->email) ?>" alt="Gravatar" class="img-responsive img-rounded user-photo">
+                        <img src="<?= $gravatar->getGravatar($ans->email) ?>"
+                            alt="Gravatar" class="img-responsive img-rounded user-photo"
+                        >
                     </a>
                 </div>
                 <div class="media-body">
                     <small class="float-left"><?= $postDb->isAnswerd($ans, 1) ?></small>
                     <small class="float-left ml-3 mini"><i><?= $postDb->translateDate($ans->created) ?></i></small>
-                    <small class="float-right"><?= ($userIsCreator) ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id) : null ?></small>
-                    <h4 class="media-heading">Svar: <?= $ans->username ?><small class="float-right"><?= $postDb->getLikes($ans->id, "post", $di) ?></small></h4>
+                    <small class="float-right">
+                        <?= ($userIsCreator)
+                            ? $postDb->getMarkAsAnswerLink(url("post/post"), $mainThread->id, $ans->id)
+                            : null
+                        ?></small>
+                    <h4 class="media-heading">
+                        Svar: <?= $ans->username ?>
+                        <small class="float-right">
+                            <?= $postDb->getLikes($ans->id, "post", $di) ?>
+                        </small>
+                    </h4>
                     <?= $mdfilter->parse($ans->data) ?>
                     <?php $subComments = $postDb->getAllComments($ans->id, $di); ?>
                     <?php foreach ($subComments as $subC) : ?>
                         <?php $commentUser = $usr->getUserInfo("id", $subC->userId, $di) ?>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="<?= url("users/user/{$commentUser->id}")?>">
-                                        <img src="<?= $gravatar->getGravatar($commentUser->email) ?>" alt="Gravatar" class="img-responsive img-rounded user-photo">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <small class="mini"><i><?= $postDb->translateDate($subC->created) ?></i></small>
-                                    <h4 class="media-heading"><?= $commentUser->username ?><small class="float-right"><?= $postDb->getLikes($ans->id, "comment", $di) ?></small></h4>
-                                    <?= $mdfilter->parse($subC->data) ?>
-                                </div>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="<?= url("users/user/{$commentUser->id}")?>">
+                                    <img src="<?= $gravatar->getGravatar($commentUser->email) ?>" 
+                                        alt="Gravatar" class="img-responsive img-rounded user-photo"
+                                    >
+                                </a>
                             </div>
+                            <div class="media-body">
+                                <small class="mini"><i><?= $postDb->translateDate($subC->created) ?></i></small>
+                                <h4 class="media-heading">
+                                    <?= $commentUser->username ?>
+                                <small class="float-right">
+                                    <?= $postDb->getLikes($ans->id, "comment", $di) ?>
+                                </small>
+                                </h4>
+                                <?= $mdfilter->parse($subC->data) ?>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
                 </div>
                 </div>
-                <small>Kommentera <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($ans->id, "comment"))) ?></small>
+                <small>
+                    Kommentera <?= $postDb->getPlusSign(url($postDb->addAnswerOrCommentUrl($ans->id, "comment"))) ?>
+                </small>
                 <hr class="clearfix">
             <?php } ?>
         <?php endforeach; ?>
