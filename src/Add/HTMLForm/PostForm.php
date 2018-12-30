@@ -91,8 +91,9 @@ class PostForm extends FormModel
         $postClass->answerd = $this->form->value("answerd");
         $postClass->data = $this->form->value("data");
         $postClass->save();
+        $checkBoxes = array();
+        
         $checkBoxes[] = "Other";
-
         if (!empty($this->form->value("tags"))) {
             $checkBoxes = $this->form->value("tags");
         }
