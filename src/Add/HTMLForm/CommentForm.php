@@ -46,7 +46,7 @@ class CommentForm extends FormModel
 
                 "data" => [
                     "type" => "textarea",
-                    "class" => "form-control w-50",
+                    "class" => "form-control",
                     "validation" => ["not_empty"],
                 ],
 

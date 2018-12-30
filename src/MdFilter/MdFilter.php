@@ -53,7 +53,53 @@ class MdFilter
      */
     public function markdown($text) : string
     {
-        //return MarkdownExtra::defaultTransform($text);
-        return \Michelf\Markdown::defaultTransform($text);
+        return \Michelf\Markdown::defaultTransform($this->fixTextFormat($text));
+    }
+
+    /**
+     * Formats the pre tags and code blocks dippending 
+     *              on tripple backticks for pre tags
+     *                    and code tag on single backticks.
+     *
+     * @param string $text          The text to be formatted.
+     *
+     * @return string as the new string value.
+     */
+    private function fixTextFormat($text) : string
+    {
+        $count = 1;
+        $myWords = [];
+        $placeHolder = "";
+
+        $replace = str_replace(
+            array('```'),
+            array('ahsdo123sad'),
+            $text
+        );
+
+        foreach (explode(" ", $replace) as $value) {
+            $ph = $value;
+
+            if (strpos($value, 'ahsdo123sad') !== false) {
+                $ph = str_replace(
+                    "ahsdo123sad",
+                    ($count % 2 !== 0)
+                        ? "<pre class='hljs'>"
+                        : "</pre>",
+                    $value
+                );
+                $count += 1;
+            }
+            $myWords[] = $ph;
+        }
+
+        $text = implode(" ", $myWords);
+        $replace = str_replace(
+            array('<pre>', '</pre>'),
+            array('<pre class="hljs">', '</pre>'),
+            $text
+        );
+
+        return $replace;
     }
 }

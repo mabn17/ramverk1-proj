@@ -2,6 +2,7 @@
 
 v1.0.0 (2018-12-22)
 -------------------
+* Updated database content.
 * Updated redirects after creating new posts and comments.
 * Finnished style.
 * Cleaned some files.

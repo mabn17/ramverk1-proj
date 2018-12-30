@@ -49,8 +49,12 @@ class Post extends ActiveRecordModel
     {
         $db = $this->returnDb($di);
         $sql = "SELECT * FROM GetSubPosts WHERE parent = $id";
+
         if ($orderByLikes !== null) {
-            $sql .= " ORDER BY totalPoints DESC";
+            $sql .= ($orderByLikes == 'date')
+                ? " ORDER BY created DESC"
+                : " ORDER BY totalPoints DESC"
+            ;
         }
 
         $res = $db->executeFetch("SELECT * FROM HeadCommentAndTags WHERE $quer = ?", [$id]);

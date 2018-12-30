@@ -16,7 +16,7 @@ Run ```make install``` to get the nessecary tools.
 
 ### Set up the database
 The database is witten in **MySQL** to set it up run the following command while in the root directory: 
-```mysql -u{root user} -p{your password} < sql/ddl/proj_mysql.sql```
+```mysql -u{root user} -p{your password} < sql/proj_mysql.sql```
 
 Then change the configuration file name from `config/database_sample.php` to `config/database.php` and change the values as you see fit.
 

@@ -19,7 +19,7 @@ function rateMe(action, type, id) {
     $.ajax({
         type: "GET",
         url: "../../vote/" + action + "/" + type + "/" + id,
-        data: 'action=' + action + '&type=comment&id=' + id,
+        data: 'action=' + action + '&type=' + type + '&id=' + id,
         success: function() {
             $.ajax({
                 type: "GET",
@@ -48,7 +48,7 @@ function rateMe(action, type, id) {
 </small>
 <span class="float-left">
     Sortera svar efter <a href="<?= url("post/post/$mainThread->id?sorted=true") ?>">poäng</a> eller
-    <a href="<?= url("post/post/$mainThread->id") ?>">nyast sist</a>. 
+    <a href="<?= url("post/post/$mainThread->id?sorted=date") ?>">datum</a>. 
 </span>
 <div class="clearfix pb-3"></div>
 <div class="container">

@@ -1,3 +1,4 @@
-#### <i class="fas fa-address-card"></i> Om mig
+#### <i class="fas fa-info-circle"></i> Om Oss
 
-Mitt namn är Martin och jag är en 23 årig kille som studerar på BTH. [Läs mer]()
+
+Välkommna till vårt forum, vi är "We Gonna Take Over The World" *(WGTOTW)*. [Läs mer](about) 

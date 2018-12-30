@@ -203,6 +203,7 @@ $class .= empty($class) ? "" : "has-sidebar";
 </div>
 <?php endif; ?>
 <!-- sitefooter -->
+<div class="py-3"></div>
 <?php if (regionHasContent("footer")) : ?>
 <div class="outer-wrap outer-wrap-footer" role="contentinfo">
     <div class="inner-wrap inner-wrap-footer">

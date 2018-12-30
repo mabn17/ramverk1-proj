@@ -23,7 +23,7 @@ Lägg till en ny fråga <?= $postDb->getPlusSign(url($postDb->addAnswerOrComment
             <a href="<?= url("users/user/$questUsr->id") ?>"><?= $questUsr->username ?></a>
         </small>
         <span class="float-right"><small><i><?= count($postDb->getPostInfo("id", $question->id, $di)["sub"]) ?>
-            Svar | <?= $postDb->getLikes($question->id, "post", $di, true)?></i></small></span></p>
+            Svar | <?= $postDb->getLikes($question->id, "post", $di, true) ?></i></small></span></p>
         <p><i class="fa fa-calendar"></i><span class="mx-3"><?= $postDb->translateDate($question->created) ?></span>
         <i class="fa fa-tags ml-5"></i> Taggar:
         <!--  -->
