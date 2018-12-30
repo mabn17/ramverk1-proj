@@ -69,7 +69,6 @@ class MdFilter
     {
         $count = 1;
         $myWords = [];
-        $placeHolder = "";
 
         $replace = str_replace(
             array('```'),
