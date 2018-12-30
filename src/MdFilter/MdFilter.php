@@ -78,10 +78,10 @@ class MdFilter
         );
 
         foreach (explode(" ", $replace) as $value) {
-            $ph = $value;
+            $placeHolder = $value;
 
             if (strpos($value, 'ahsdo123sad') !== false) {
-                $ph = str_replace(
+                $placeHolder = str_replace(
                     "ahsdo123sad",
                     ($count % 2 !== 0)
                         ? "<pre class='hljs'>"
@@ -90,7 +90,7 @@ class MdFilter
                 );
                 $count += 1;
             }
-            $myWords[] = $ph;
+            $myWords[] = $placeHolder;
         }
 
         $text = implode(" ", $myWords);
