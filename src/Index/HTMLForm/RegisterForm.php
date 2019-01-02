@@ -48,6 +48,12 @@ class RegisterForm extends FormModel
                     "validation" => ["not_empty"],
                 ],
 
+                "active" => [
+                    "type" => "hidden",
+                    "validation" => ["not_empty"],
+                    "value" => date("Y-m-d H:i:s"),
+                ],
+
                 "submit" => [
                     "type" => "submit",
                     "value" => "Skapa Konto",
@@ -71,7 +77,7 @@ class RegisterForm extends FormModel
         $user->setDb($this->di->get("dbqb"));
         $user->username = $this->form->value("username");
         $user->email = $this->form->value("email");
-        $user->points = 0;
+        $user->active = $this->form->value("active");
         $user->password = $this->form->value("password");
         $passwordTwo = $this->form->value("passwordTwo");
 

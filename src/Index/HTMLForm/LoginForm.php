@@ -56,7 +56,9 @@ class LoginForm extends FormModel
     public function callbackSubmit() : bool
     {
         $user = new User();
+        $otherUser = new User();
         $user->setDb($this->di->get("dbqb"));
+        $otherUser->setDb($this->di->get("dbqb"));
 
         $username = $this->form->value("username");
         $password = $this->form->value("password");
@@ -68,6 +70,10 @@ class LoginForm extends FormModel
             $this->form->addOutput("Username or Password did not match!");
             return false;
         }
+
+        $otherUser->find("id", $dbUser->id);
+        $otherUser->active = date("Y-m-d H:i:s");
+        $otherUser->save();
 
         $this->di->get("session")->set("user", $dbUser);
         return true;

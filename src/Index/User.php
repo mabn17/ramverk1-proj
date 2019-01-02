@@ -23,13 +23,13 @@ class User extends ActiveRecordModel
      * @var string $username    VARCHAR(23) UNIQUE NOT NULL
      * @var string $password    CHAR(200) NOT NULL
      * @var string $email       VARCHAR(60) UNIQUE NOT NULL
-     * @var integer $points     INT DEFAULT 0 NOT NULL
+     * @var string $active      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
      */
     public $id;
     public $username;
     public $password;
     public $email;
-    public $points;
+    public $active;
 
     /**
      * Returns the user
