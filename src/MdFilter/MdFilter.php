@@ -57,7 +57,7 @@ class MdFilter
     }
 
     /**
-     * Formats the pre tags and code blocks dippending 
+     * Formats the pre tags and code blocks dippending
      *              on tripple backticks for pre tags
      *                    and code tag on single backticks.
      *
