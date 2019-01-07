@@ -66,7 +66,8 @@ class AnswerForm extends FormModel
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Save",
+                    "value" => "Svara",
+                    "class" => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]

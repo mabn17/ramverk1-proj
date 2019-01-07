@@ -52,7 +52,8 @@ class CommentForm extends FormModel
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Save",
+                    "value" => "Kommentera",
+                    "class" => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]

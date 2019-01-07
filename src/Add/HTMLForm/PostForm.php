@@ -66,7 +66,8 @@ class PostForm extends FormModel
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Save",
+                    "value" => "Skicka Fråga",
+                    "class" => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]

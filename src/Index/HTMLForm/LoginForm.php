@@ -39,6 +39,7 @@ class LoginForm extends FormModel
                 "submit" => [
                     "type" => "submit",
                     "value" => "Logga in",
+                    "class"     => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]

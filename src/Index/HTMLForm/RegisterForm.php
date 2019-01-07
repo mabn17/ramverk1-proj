@@ -57,6 +57,7 @@ class RegisterForm extends FormModel
                 "submit" => [
                     "type" => "submit",
                     "value" => "Skapa Konto",
+                    "class"     => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
             ]

@@ -47,11 +47,14 @@ class EdditForm extends FormModel
 
                 "submit" => [
                     "type" => "submit",
-                    "value" => "Ändra",
+                    "value" => "Spara",
+                    "class" => "btn btn-info",
                     "callback" => [$this, "callbackSubmit"]
                 ],
                 "reset" => [
                     "type"      => "reset",
+                    "value"     => "Återställ",
+                    "class"     => "btn btn-secondary"
                 ],
             ]
         );
