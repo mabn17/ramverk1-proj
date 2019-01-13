@@ -94,7 +94,7 @@ class Post extends ActiveRecordModel
     public function findPostsForMyTag($id, $di) : array
     {
         $db = $this->returnDb($di);
-        $res = $db->executeFetchAll("SELECT * FROM HeadCommentAndTags");
+        $res = $db->executeFetchAll("SELECT * FROM HeadCommentAndTags ORDER BY created DESC");
         $tagId = $db->executeFetch("SELECT * FROM Tags WHERE id = $id")->tag;
         $returningArray = [];
 

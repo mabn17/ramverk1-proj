@@ -16,7 +16,7 @@ namespace Anax\View;
     <small>Av: <a href="<?= url("users/user/$questUsr->id") ?>"><?= $questUsr->username ?></a> - <?= $question->created ?></small>
 <?php endforeach; ?> */
 
-?>
+?><h2 class="">Inlägg kopplade till - <?= $tagName ?></h2>
 <?php foreach ($data as $question) : ?>
     <div class="py-3">
         <h1><a href="<?= url($usr->getPostUrl($question)) ?>" class="h-link"> <?= $question->title ?></a> <?= $postDb->isAnswerd($question) ?></h1>
