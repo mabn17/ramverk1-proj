@@ -67,12 +67,14 @@ class MdFilter
      */
     private function fixTextFormat($text) : string
     {
-        $count = 1;
+        // Uncomment on real use.
+        //$text = htmlentities($text);
+        $count = 2;
         $myWords = [];
 
         $replace = str_replace(
             array('```'),
-            array('ahsdo123sad'),
+            array(' ahsdo123sad '),
             $text
         );
 
@@ -82,14 +84,18 @@ class MdFilter
             if (strpos($value, 'ahsdo123sad') !== false) {
                 $placeHolder = str_replace(
                     "ahsdo123sad",
-                    ($count % 2 !== 0)
-                        ? "<pre class='hljs'>"
+                    ($count % 2 == 0)
+                        ? "<pre>"
                         : "</pre>",
                     $value
                 );
                 $count += 1;
             }
             $myWords[] = $placeHolder;
+        }
+
+        if ($count % 2 !== 0) {
+            array_push($myWords, "</pre>");
         }
 
         $text = implode(" ", $myWords);
